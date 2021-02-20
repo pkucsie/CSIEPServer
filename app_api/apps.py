@@ -2,4 +2,5 @@ from django.apps import AppConfig
 
 
 class AppApiConfig(AppConfig):
-    name = 'csie'
+    name = 'app_api'
+    verbose_name = "双创平台"

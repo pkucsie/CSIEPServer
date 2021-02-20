@@ -28,7 +28,7 @@
         ]
     },
     {
-        name: 'App_Api',
+        name: '双创平台',
         icon: 'BarsOutlined',
         path: '/xadmin/app_api',
         routes:
