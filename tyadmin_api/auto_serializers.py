@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from django.contrib.auth.models import Permission, Group
 from django.contrib.contenttypes.models import ContentType
-from app_api.models import EmailVerifyRecord, OrderStatus, Order, OrderItem, CouponRange, CouponStatus, Coupon, IntegralType, Integral, Notice, LessonScript, Lesson, Question, Cart, Consult, User, Bill, Address, Catalog, LogType, Log, ReadType, ReadChapter, ReadChapterItem, VipGuest, Teacher, Comment, Hot, RechargeAction, RechargePay, Recharge, LabelFollow, Student, StudentType, Navigation, Read, Article, History, QaType, Answer, Qa, ArticleType, UserNotice, Slider, UserLesson, Nav, LabelType, LessonType, LessonHardType, Label, Footer, CommonPathConfig, Chapter, Term, SysLog
+from app_api.models import EmailVerifyRecord, OrderStatus, Order, OrderItem, CouponRange, CouponStatus, Coupon, IntegralType, Integral, Notice, LessonScript, Lesson, Question, Cart, Consult, User, Bill, Address, Catalog, LogType, Log, ReadType, ReadChapter, ReadChapterItem, TaskTimeline, Organization, VipGuest, Judge, Teacher, Comment, Hot, RechargeAction, RechargePay, Recharge, LabelFollow, Student, StudentType, Navigation, Read, Article, History, QaType, Answer, Qa, ArticleType, UserNotice, Slider, UserLesson, Nav, LabelType, LessonType, LessonHardType, Label, Footer, CommonPathConfig, Chapter, Term, SysLog
 
 
 class ContentTypeListSerializer(serializers.ModelSerializer):
@@ -396,6 +396,62 @@ class ReadTypeCreateUpdateSerializer(serializers.ModelSerializer):
         return str(obj)
 
 
+class TaskTimelineListSerializer(serializers.ModelSerializer):
+    
+
+    key = serializers.CharField(source="pk")
+    ty_options_display_txt = serializers.SerializerMethodField()
+
+    class Meta:
+        model = TaskTimeline
+        fields = "__all__"
+
+    @staticmethod
+    def get_ty_options_display_txt(obj):
+        return str(obj)
+
+
+class TaskTimelineCreateUpdateSerializer(serializers.ModelSerializer):
+    
+    ty_options_display_txt = serializers.SerializerMethodField()
+
+    class Meta:
+        model = TaskTimeline
+        fields = "__all__"
+
+    @staticmethod
+    def get_ty_options_display_txt(obj):
+        return str(obj)
+
+
+class OrganizationListSerializer(serializers.ModelSerializer):
+    
+
+    key = serializers.CharField(source="pk")
+    ty_options_display_txt = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Organization
+        fields = "__all__"
+
+    @staticmethod
+    def get_ty_options_display_txt(obj):
+        return str(obj)
+
+
+class OrganizationCreateUpdateSerializer(serializers.ModelSerializer):
+    
+    ty_options_display_txt = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Organization
+        fields = "__all__"
+
+    @staticmethod
+    def get_ty_options_display_txt(obj):
+        return str(obj)
+
+
 class VipGuestListSerializer(serializers.ModelSerializer):
     
 
@@ -417,6 +473,34 @@ class VipGuestCreateUpdateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = VipGuest
+        fields = "__all__"
+
+    @staticmethod
+    def get_ty_options_display_txt(obj):
+        return str(obj)
+
+
+class JudgeListSerializer(serializers.ModelSerializer):
+    
+
+    key = serializers.CharField(source="pk")
+    ty_options_display_txt = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Judge
+        fields = "__all__"
+
+    @staticmethod
+    def get_ty_options_display_txt(obj):
+        return str(obj)
+
+
+class JudgeCreateUpdateSerializer(serializers.ModelSerializer):
+    
+    ty_options_display_txt = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Judge
         fields = "__all__"
 
     @staticmethod

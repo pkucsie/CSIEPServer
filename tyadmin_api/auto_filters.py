@@ -2,7 +2,7 @@ from django_filters import rest_framework as filters
 from tyadmin_api.custom import DateFromToRangeFilter
 from django.contrib.auth.models import Permission, Group
 from django.contrib.contenttypes.models import ContentType
-from app_api.models import EmailVerifyRecord, OrderStatus, Order, OrderItem, CouponRange, CouponStatus, Coupon, IntegralType, Integral, Notice, LessonScript, Lesson, Question, Cart, Consult, User, Bill, Address, Catalog, LogType, Log, ReadType, ReadChapter, ReadChapterItem, VipGuest, Teacher, Comment, Hot, RechargeAction, RechargePay, Recharge, LabelFollow, Student, StudentType, Navigation, Read, Article, History, QaType, Answer, Qa, ArticleType, UserNotice, Slider, UserLesson, Nav, LabelType, LessonType, LessonHardType, Label, Footer, CommonPathConfig, Chapter, Term, SysLog
+from app_api.models import EmailVerifyRecord, OrderStatus, Order, OrderItem, CouponRange, CouponStatus, Coupon, IntegralType, Integral, Notice, LessonScript, Lesson, Question, Cart, Consult, User, Bill, Address, Catalog, LogType, Log, ReadType, ReadChapter, ReadChapterItem, TaskTimeline, Organization, VipGuest, Judge, Teacher, Comment, Hot, RechargeAction, RechargePay, Recharge, LabelFollow, Student, StudentType, Navigation, Read, Article, History, QaType, Answer, Qa, ArticleType, UserNotice, Slider, UserLesson, Nav, LabelType, LessonType, LessonHardType, Label, Footer, CommonPathConfig, Chapter, Term, SysLog
 
 class PermissionFilter(filters.FilterSet):
     content_type_text = filters.CharFilter(field_name="content_type")
@@ -193,10 +193,30 @@ class ReadChapterItemFilter(filters.FilterSet):
         model = ReadChapterItem
         exclude = []
 
+class TaskTimelineFilter(filters.FilterSet):
+    stime = DateFromToRangeFilter(field_name="stime")
+    etime = DateFromToRangeFilter(field_name="etime")
+
+    class Meta:
+        model = TaskTimeline
+        exclude = []
+
+class OrganizationFilter(filters.FilterSet):
+
+    class Meta:
+        model = Organization
+        exclude = ["avatar","avatar"]
+
 class VipGuestFilter(filters.FilterSet):
 
     class Meta:
         model = VipGuest
+        exclude = ["avatar","avatar"]
+
+class JudgeFilter(filters.FilterSet):
+
+    class Meta:
+        model = Judge
         exclude = ["avatar","avatar"]
 
 class TeacherFilter(filters.FilterSet):

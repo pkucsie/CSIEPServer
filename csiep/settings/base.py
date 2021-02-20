@@ -160,10 +160,10 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 EMAIL_HOST = "smtp.qq.com"
 EMAIL_PORT = 25
-EMAIL_HOST_USER = "1147727180@qq.com"
-EMAIL_HOST_PASSWORD = "tuzosukurdpjihda"
+EMAIL_HOST_USER = "123456@qq.com"
+EMAIL_HOST_PASSWORD = ""
 EMAIL_USE_TLS = True
-EMAIL_FROM = "1147727180@qq.com"
+EMAIL_FROM = "123456@qq.com"
 if DEBUG:
     STATICFILES_DIRS = [
         os.path.join(BASE_DIR, "static"),

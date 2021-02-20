@@ -1,8 +1,8 @@
 from django_filters import rest_framework as filters
 
-from app_api.models import Order, Coupon, Integral, Notice, Lesson, Question, Cart, User, Bill, Address, Catalog, Log, ReadType, Teacher, Comment, \
+from app_api.models import Judge, Order, Coupon, Integral, Notice, Lesson, Organization, Question, Cart, User, Bill, Address, Catalog, Log, ReadType, Teacher, Comment, \
     Hot, Recharge, LabelFollow, Student, Navigation, Read, Article, History, Qa, ArticleType, UserNotice, Slider, UserLesson, Nav, LabelType, \
-    IntegralType, Label, Footer, CommonPathConfig, Consult, VipGuest
+    IntegralType, Label, Footer, CommonPathConfig, Consult, VipGuest, Judge, Organization, TaskTimeline
 
 
 class ConsultFilter(filters.FilterSet):
@@ -102,9 +102,27 @@ class ReadTypeFilter(filters.FilterSet):
         exclude = ["img", "detailImg"]
 
 
+class TaskTimelineFilter(filters.FilterSet):
+    class Meta:
+        model = TaskTimeline
+        fields = "__all__"
+
+
+class OrganizationFilter(filters.FilterSet):
+    class Meta:
+        model = Organization
+        exclude = ["avatar"]
+
+
 class VipGuestFilter(filters.FilterSet):
     class Meta:
         model = VipGuest
+        exclude = ["avatar"]
+
+
+class JudgeFilter(filters.FilterSet):
+    class Meta:
+        model = Judge
         exclude = ["avatar"]
 
 

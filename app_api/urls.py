@@ -22,6 +22,10 @@ router.register('article/?', views.ArticleViewSet)
 
 router.register('cart/?', views.CartViewSet)
 
+router.register('home/timeline/?', views.TaskTimelineViewSet)
+
+router.register('home/org/?', views.OrganizationViewSet)
+
 router.register('home/vipguest/?', views.VipGuestViewSet)
 
 router.register('home/teacher/?', views.TeacherViewSet)

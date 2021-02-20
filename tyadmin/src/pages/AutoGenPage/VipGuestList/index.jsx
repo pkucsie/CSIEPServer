@@ -149,6 +149,37 @@ const TableList = () => {
                              
                              
                         },
+                      {
+                             title: '排序',
+                             
+                             initialValue: 0,
+                             dataIndex: 'order',
+                             valueType: 'digit',
+                             rules: [
+                                     
+                             ],
+                             
+                             
+                        },
+                      {
+                             title: '可见',
+                             
+                             initialValue: true,
+                             dataIndex: 'enable',
+                             
+                             rules: [
+                                     
+                             ],
+                             
+                                     render: (text, record) => {
+                                  return BooleanDisplay(text);
+                                },
+                        renderFormItem: (item, {value, onChange}) => {
+                          return BooleanFormItem(value, onChange);
+                        },
+        
+                             
+                        },
                           {
                               title: '操作',
                               dataIndex: 'option',

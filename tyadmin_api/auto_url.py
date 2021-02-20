@@ -58,7 +58,13 @@ router.register('read_chapter', auto_views.ReadChapterViewSet)
     
 router.register('read_chapter_item', auto_views.ReadChapterItemViewSet)
     
+router.register('task_timeline', auto_views.TaskTimelineViewSet)
+    
+router.register('organization', auto_views.OrganizationViewSet)
+    
 router.register('vip_guest', auto_views.VipGuestViewSet)
+    
+router.register('judge', auto_views.JudgeViewSet)
     
 router.register('teacher', auto_views.TeacherViewSet)
     

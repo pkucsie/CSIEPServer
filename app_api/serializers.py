@@ -7,7 +7,7 @@ from rest_framework.relations import StringRelatedField
 from app_api.models import Order, Coupon, Integral, Notice, Lesson, Question, Cart, User, Bill, Address, Catalog, Log, ReadType, Teacher, Comment, \
     Hot, Recharge, LabelFollow, Student, Navigation, Read, Article, History, Qa, ArticleType, UserNotice, Slider, UserLesson, Nav, LabelType, \
     IntegralType, Label, Footer, CommonPathConfig, StudentType, LessonType, LessonHardType, Chapter, Term, QaType, RechargeAction, RechargePay, \
-    CouponRange, CouponStatus, OrderItem, OrderStatus, Consult, ReadChapterItem, ReadChapter, LogType, VipGuest
+    CouponRange, CouponStatus, OrderItem, OrderStatus, Consult, ReadChapterItem, ReadChapter, LogType, VipGuest, Judge, Organization, TaskTimeline
 
 
 class ConsultSerializer(serializers.ModelSerializer):
@@ -139,9 +139,27 @@ class LessonHardTypeSerializer(serializers.ModelSerializer):
         fields = ["code", "text"]
 
 
+class TaskTimelineSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TaskTimeline
+        fields = "__all__"
+
+
+class OrganizationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Organization
+        fields = "__all__"
+
+
 class VipGuestSerializer(serializers.ModelSerializer):
     class Meta:
         model = VipGuest
+        fields = "__all__"
+
+
+class JudgeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Judge
         fields = "__all__"
 
 

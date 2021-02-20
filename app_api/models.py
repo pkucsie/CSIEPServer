@@ -372,15 +372,64 @@ class ReadChapterItem(models.Model):
         verbose_name_plural = verbose_name
 
 
+class TaskTimeline(models.Model):
+    taskid = models.CharField(max_length=255, verbose_name="活动id")
+    tasktype = models.CharField(max_length=255, verbose_name="分类名称")
+    name = models.CharField(max_length=255, verbose_name="活动名称")
+    content = models.TextField(max_length=255, verbose_name="活动内容")
+    dtime = models.DateField(verbose_name="活动日期")
+    stime = models.DateTimeField(verbose_name="开始时间")
+    etime = models.DateTimeField(verbose_name="结束时间")
+    order = models.IntegerField(default=0, verbose_name="排序")
+
+    class Meta:
+        verbose_name = '时间线'
+        verbose_name_plural = verbose_name
+
+
+class Organization(models.Model):
+    ORG_CHOICES = (
+        ("director", "指导单位"),
+        ("sponsor", "主办单位"),
+        ("agency", "承办单位"),
+        ("supporter", "支持单位"),
+    )    
+    name = models.CharField(max_length=255, verbose_name="机构名称", unique=True)
+    orgtype = models.CharField(max_length=255, choices=ORG_CHOICES, verbose_name="机构类型", default='sponsor')
+    avatar = SImageField(upload_to="org_avatar", max_length=255, verbose_name="机构图标")    
+    service = models.CharField(max_length=255, verbose_name="机构业务")
+    orgurl = models.CharField(max_length=255, verbose_name="机构链接", default='')
+    introduction = models.TextField(verbose_name="机构介绍")
+    order = models.IntegerField(default=0, verbose_name="排序")
+
+    class Meta:
+        verbose_name = '机构'
+        verbose_name_plural = verbose_name
+
+
 class VipGuest(models.Model):
     name = models.CharField(max_length=255, verbose_name="嘉宾姓名", unique=True)
     avatar = SImageField(upload_to="vipguest_avatar", max_length=255, verbose_name="嘉宾头像")
     #corp = models.CharField(max_length=255, verbose_name="嘉宾公司")
     job = models.CharField(max_length=255, verbose_name="嘉宾职业")
     introduction = models.TextField(verbose_name="个人介绍")
+    order = models.IntegerField(default=0, verbose_name="排序")
+    enable = models.BooleanField(verbose_name="可见", default=True)
 
     class Meta:
         verbose_name = '嘉宾'
+        verbose_name_plural = verbose_name
+
+
+class Judge(models.Model):
+    name = models.CharField(max_length=255, verbose_name="评委姓名", unique=True)
+    avatar = SImageField(upload_to="judge_avatar", max_length=255, verbose_name="评委头像")
+    job = models.CharField(max_length=255, verbose_name="评委职业")
+    introduction = models.TextField(verbose_name="评委介绍")
+    order = models.IntegerField(default=0, verbose_name="排序")
+
+    class Meta:
+        verbose_name = '评委'
         verbose_name_plural = verbose_name
 
 

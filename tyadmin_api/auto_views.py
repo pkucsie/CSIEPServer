@@ -3,11 +3,11 @@ from rest_framework import viewsets
 from tyadmin_api.custom import XadminViewSet
 from django.contrib.auth.models import Permission, Group
 from django.contrib.contenttypes.models import ContentType
-from app_api.models import EmailVerifyRecord, OrderStatus, Order, OrderItem, CouponRange, CouponStatus, Coupon, IntegralType, Integral, Notice, LessonScript, Lesson, Question, Cart, Consult, User, Bill, Address, Catalog, LogType, Log, ReadType, ReadChapter, ReadChapterItem, VipGuest, Teacher, Comment, Hot, RechargeAction, RechargePay, Recharge, LabelFollow, Student, StudentType, Navigation, Read, Article, History, QaType, Answer, Qa, ArticleType, UserNotice, Slider, UserLesson, Nav, LabelType, LessonType, LessonHardType, Label, Footer, CommonPathConfig, Chapter, Term, SysLog
+from app_api.models import EmailVerifyRecord, OrderStatus, Order, OrderItem, CouponRange, CouponStatus, Coupon, IntegralType, Integral, Notice, LessonScript, Lesson, Question, Cart, Consult, User, Bill, Address, Catalog, LogType, Log, ReadType, ReadChapter, ReadChapterItem, TaskTimeline, Organization, VipGuest, Judge, Teacher, Comment, Hot, RechargeAction, RechargePay, Recharge, LabelFollow, Student, StudentType, Navigation, Read, Article, History, QaType, Answer, Qa, ArticleType, UserNotice, Slider, UserLesson, Nav, LabelType, LessonType, LessonHardType, Label, Footer, CommonPathConfig, Chapter, Term, SysLog
 
-from tyadmin_api.auto_serializers import PermissionListSerializer, GroupListSerializer, ContentTypeListSerializer, EmailVerifyRecordListSerializer, OrderStatusListSerializer, OrderListSerializer, OrderItemListSerializer, CouponRangeListSerializer, CouponStatusListSerializer, CouponListSerializer, IntegralTypeListSerializer, IntegralListSerializer, NoticeListSerializer, LessonScriptListSerializer, LessonListSerializer, QuestionListSerializer, CartListSerializer, ConsultListSerializer, UserListSerializer, BillListSerializer, AddressListSerializer, CatalogListSerializer, LogTypeListSerializer, LogListSerializer, ReadTypeListSerializer, ReadChapterListSerializer, ReadChapterItemListSerializer, VipGuestListSerializer, TeacherListSerializer, CommentListSerializer, HotListSerializer, RechargeActionListSerializer, RechargePayListSerializer, RechargeListSerializer, LabelFollowListSerializer, StudentListSerializer, StudentTypeListSerializer, NavigationListSerializer, ReadListSerializer, ArticleListSerializer, HistoryListSerializer, QaTypeListSerializer, AnswerListSerializer, QaListSerializer, ArticleTypeListSerializer, UserNoticeListSerializer, SliderListSerializer, UserLessonListSerializer, NavListSerializer, LabelTypeListSerializer, LessonTypeListSerializer, LessonHardTypeListSerializer, LabelListSerializer, FooterListSerializer, CommonPathConfigListSerializer, ChapterListSerializer, TermListSerializer, SysLogListSerializer
-from tyadmin_api.auto_serializers import PermissionCreateUpdateSerializer, GroupCreateUpdateSerializer, ContentTypeCreateUpdateSerializer, EmailVerifyRecordCreateUpdateSerializer, OrderStatusCreateUpdateSerializer, OrderCreateUpdateSerializer, OrderItemCreateUpdateSerializer, CouponRangeCreateUpdateSerializer, CouponStatusCreateUpdateSerializer, CouponCreateUpdateSerializer, IntegralTypeCreateUpdateSerializer, IntegralCreateUpdateSerializer, NoticeCreateUpdateSerializer, LessonScriptCreateUpdateSerializer, LessonCreateUpdateSerializer, QuestionCreateUpdateSerializer, CartCreateUpdateSerializer, ConsultCreateUpdateSerializer, UserCreateUpdateSerializer, BillCreateUpdateSerializer, AddressCreateUpdateSerializer, CatalogCreateUpdateSerializer, LogTypeCreateUpdateSerializer, LogCreateUpdateSerializer, ReadTypeCreateUpdateSerializer, ReadChapterCreateUpdateSerializer, ReadChapterItemCreateUpdateSerializer, VipGuestCreateUpdateSerializer, TeacherCreateUpdateSerializer, CommentCreateUpdateSerializer, HotCreateUpdateSerializer, RechargeActionCreateUpdateSerializer, RechargePayCreateUpdateSerializer, RechargeCreateUpdateSerializer, LabelFollowCreateUpdateSerializer, StudentCreateUpdateSerializer, StudentTypeCreateUpdateSerializer, NavigationCreateUpdateSerializer, ReadCreateUpdateSerializer, ArticleCreateUpdateSerializer, HistoryCreateUpdateSerializer, QaTypeCreateUpdateSerializer, AnswerCreateUpdateSerializer, QaCreateUpdateSerializer, ArticleTypeCreateUpdateSerializer, UserNoticeCreateUpdateSerializer, SliderCreateUpdateSerializer, UserLessonCreateUpdateSerializer, NavCreateUpdateSerializer, LabelTypeCreateUpdateSerializer, LessonTypeCreateUpdateSerializer, LessonHardTypeCreateUpdateSerializer, LabelCreateUpdateSerializer, FooterCreateUpdateSerializer, CommonPathConfigCreateUpdateSerializer, ChapterCreateUpdateSerializer, TermCreateUpdateSerializer, SysLogCreateUpdateSerializer
-from tyadmin_api.auto_filters import PermissionFilter, GroupFilter, ContentTypeFilter, EmailVerifyRecordFilter, OrderStatusFilter, OrderFilter, OrderItemFilter, CouponRangeFilter, CouponStatusFilter, CouponFilter, IntegralTypeFilter, IntegralFilter, NoticeFilter, LessonScriptFilter, LessonFilter, QuestionFilter, CartFilter, ConsultFilter, UserFilter, BillFilter, AddressFilter, CatalogFilter, LogTypeFilter, LogFilter, ReadTypeFilter, ReadChapterFilter, ReadChapterItemFilter, VipGuestFilter, TeacherFilter, CommentFilter, HotFilter, RechargeActionFilter, RechargePayFilter, RechargeFilter, LabelFollowFilter, StudentFilter, StudentTypeFilter, NavigationFilter, ReadFilter, ArticleFilter, HistoryFilter, QaTypeFilter, AnswerFilter, QaFilter, ArticleTypeFilter, UserNoticeFilter, SliderFilter, UserLessonFilter, NavFilter, LabelTypeFilter, LessonTypeFilter, LessonHardTypeFilter, LabelFilter, FooterFilter, CommonPathConfigFilter, ChapterFilter, TermFilter, SysLogFilter
+from tyadmin_api.auto_serializers import PermissionListSerializer, GroupListSerializer, ContentTypeListSerializer, EmailVerifyRecordListSerializer, OrderStatusListSerializer, OrderListSerializer, OrderItemListSerializer, CouponRangeListSerializer, CouponStatusListSerializer, CouponListSerializer, IntegralTypeListSerializer, IntegralListSerializer, NoticeListSerializer, LessonScriptListSerializer, LessonListSerializer, QuestionListSerializer, CartListSerializer, ConsultListSerializer, UserListSerializer, BillListSerializer, AddressListSerializer, CatalogListSerializer, LogTypeListSerializer, LogListSerializer, ReadTypeListSerializer, ReadChapterListSerializer, ReadChapterItemListSerializer, TaskTimelineListSerializer, OrganizationListSerializer, VipGuestListSerializer, JudgeListSerializer, TeacherListSerializer, CommentListSerializer, HotListSerializer, RechargeActionListSerializer, RechargePayListSerializer, RechargeListSerializer, LabelFollowListSerializer, StudentListSerializer, StudentTypeListSerializer, NavigationListSerializer, ReadListSerializer, ArticleListSerializer, HistoryListSerializer, QaTypeListSerializer, AnswerListSerializer, QaListSerializer, ArticleTypeListSerializer, UserNoticeListSerializer, SliderListSerializer, UserLessonListSerializer, NavListSerializer, LabelTypeListSerializer, LessonTypeListSerializer, LessonHardTypeListSerializer, LabelListSerializer, FooterListSerializer, CommonPathConfigListSerializer, ChapterListSerializer, TermListSerializer, SysLogListSerializer
+from tyadmin_api.auto_serializers import PermissionCreateUpdateSerializer, GroupCreateUpdateSerializer, ContentTypeCreateUpdateSerializer, EmailVerifyRecordCreateUpdateSerializer, OrderStatusCreateUpdateSerializer, OrderCreateUpdateSerializer, OrderItemCreateUpdateSerializer, CouponRangeCreateUpdateSerializer, CouponStatusCreateUpdateSerializer, CouponCreateUpdateSerializer, IntegralTypeCreateUpdateSerializer, IntegralCreateUpdateSerializer, NoticeCreateUpdateSerializer, LessonScriptCreateUpdateSerializer, LessonCreateUpdateSerializer, QuestionCreateUpdateSerializer, CartCreateUpdateSerializer, ConsultCreateUpdateSerializer, UserCreateUpdateSerializer, BillCreateUpdateSerializer, AddressCreateUpdateSerializer, CatalogCreateUpdateSerializer, LogTypeCreateUpdateSerializer, LogCreateUpdateSerializer, ReadTypeCreateUpdateSerializer, ReadChapterCreateUpdateSerializer, ReadChapterItemCreateUpdateSerializer, TaskTimelineCreateUpdateSerializer, OrganizationCreateUpdateSerializer, VipGuestCreateUpdateSerializer, JudgeCreateUpdateSerializer, TeacherCreateUpdateSerializer, CommentCreateUpdateSerializer, HotCreateUpdateSerializer, RechargeActionCreateUpdateSerializer, RechargePayCreateUpdateSerializer, RechargeCreateUpdateSerializer, LabelFollowCreateUpdateSerializer, StudentCreateUpdateSerializer, StudentTypeCreateUpdateSerializer, NavigationCreateUpdateSerializer, ReadCreateUpdateSerializer, ArticleCreateUpdateSerializer, HistoryCreateUpdateSerializer, QaTypeCreateUpdateSerializer, AnswerCreateUpdateSerializer, QaCreateUpdateSerializer, ArticleTypeCreateUpdateSerializer, UserNoticeCreateUpdateSerializer, SliderCreateUpdateSerializer, UserLessonCreateUpdateSerializer, NavCreateUpdateSerializer, LabelTypeCreateUpdateSerializer, LessonTypeCreateUpdateSerializer, LessonHardTypeCreateUpdateSerializer, LabelCreateUpdateSerializer, FooterCreateUpdateSerializer, CommonPathConfigCreateUpdateSerializer, ChapterCreateUpdateSerializer, TermCreateUpdateSerializer, SysLogCreateUpdateSerializer
+from tyadmin_api.auto_filters import PermissionFilter, GroupFilter, ContentTypeFilter, EmailVerifyRecordFilter, OrderStatusFilter, OrderFilter, OrderItemFilter, CouponRangeFilter, CouponStatusFilter, CouponFilter, IntegralTypeFilter, IntegralFilter, NoticeFilter, LessonScriptFilter, LessonFilter, QuestionFilter, CartFilter, ConsultFilter, UserFilter, BillFilter, AddressFilter, CatalogFilter, LogTypeFilter, LogFilter, ReadTypeFilter, ReadChapterFilter, ReadChapterItemFilter, TaskTimelineFilter, OrganizationFilter, VipGuestFilter, JudgeFilter, TeacherFilter, CommentFilter, HotFilter, RechargeActionFilter, RechargePayFilter, RechargeFilter, LabelFollowFilter, StudentFilter, StudentTypeFilter, NavigationFilter, ReadFilter, ArticleFilter, HistoryFilter, QaTypeFilter, AnswerFilter, QaFilter, ArticleTypeFilter, UserNoticeFilter, SliderFilter, UserLessonFilter, NavFilter, LabelTypeFilter, LessonTypeFilter, LessonHardTypeFilter, LabelFilter, FooterFilter, CommonPathConfigFilter, ChapterFilter, TermFilter, SysLogFilter
 
     
 class PermissionViewSet(XadminViewSet):
@@ -361,6 +361,32 @@ class ReadChapterItemViewSet(XadminViewSet):
             return ReadChapterItemCreateUpdateSerializer
 
     
+class TaskTimelineViewSet(XadminViewSet):
+    serializer_class = TaskTimelineListSerializer
+    queryset = TaskTimeline.objects.all().order_by('-pk')
+    filter_class = TaskTimelineFilter
+    search_fields = ["taskid","tasktype","name"]
+
+    def get_serializer_class(self):
+        if self.action == "list":
+            return TaskTimelineListSerializer
+        else:
+            return TaskTimelineCreateUpdateSerializer
+
+    
+class OrganizationViewSet(XadminViewSet):
+    serializer_class = OrganizationListSerializer
+    queryset = Organization.objects.all().order_by('-pk')
+    filter_class = OrganizationFilter
+    search_fields = ["name","orgtype","service","orgurl"]
+
+    def get_serializer_class(self):
+        if self.action == "list":
+            return OrganizationListSerializer
+        else:
+            return OrganizationCreateUpdateSerializer
+
+    
 class VipGuestViewSet(XadminViewSet):
     serializer_class = VipGuestListSerializer
     queryset = VipGuest.objects.all().order_by('-pk')
@@ -372,6 +398,19 @@ class VipGuestViewSet(XadminViewSet):
             return VipGuestListSerializer
         else:
             return VipGuestCreateUpdateSerializer
+
+    
+class JudgeViewSet(XadminViewSet):
+    serializer_class = JudgeListSerializer
+    queryset = Judge.objects.all().order_by('-pk')
+    filter_class = JudgeFilter
+    search_fields = ["name","job"]
+
+    def get_serializer_class(self):
+        if self.action == "list":
+            return JudgeListSerializer
+        else:
+            return JudgeCreateUpdateSerializer
 
     
 class TeacherViewSet(XadminViewSet):
