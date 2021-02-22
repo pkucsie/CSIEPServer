@@ -43,12 +43,16 @@ def gen_route(project_name_settings, user_label_list):
         # 中文
         # group_name = model._meta.app_config.verbose_name
         # model_name = trans(model._meta.verbose_name)
-
-        group_display = model._meta.app_config.verbose_name
-        group_name = model._meta.app_label
+        if f'{get_lower_case_name(model._meta.model.__name__)}'.__contains__('user'):
+            group_name = 'user'
+            group_display = '用户管理'
+            menu_display_dict[group_name] = group_display
+        else:
+            group_display = model._meta.app_config.verbose_name
+            group_name = model._meta.app_label
         menu_display_dict[group_name] = group_display
         model_name = model._meta.verbose_name
-        filtername = ['organization', 'vip_guest', 'judge', 'task_timeline', 'slider', 'permission', 'group']
+        filtername = ['organization', 'vip_guest', 'judge', 'task_timeline', 'slider', 'permission', 'group', 'user']
 
         url = f'/xadmin/{group_name}/{get_lower_case_name(model._meta.model.__name__)}'
         rootflag = False
@@ -56,7 +60,8 @@ def gen_route(project_name_settings, user_label_list):
         for item in filtername:
             if url.__contains__(item):
                rootflag = True
-               break
+               break            
+
         if rootflag:
             menu = "\n".join([
                 "{",
