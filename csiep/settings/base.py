@@ -29,6 +29,7 @@ ALLOWED_HOSTS = ["*"]
 # Application definition
 
 INSTALLED_APPS = [
+    'corsheaders',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -39,7 +40,8 @@ INSTALLED_APPS = [
     'django_filters',
     'captcha',
     'tyadmin_api_cli',
-    'tyadmin_api'
+    'tyadmin_api',
+    #'drf_yasg'
 ]
 
 AUTH_USER_MODEL = "app_api.User"
@@ -47,6 +49,7 @@ AUTH_USER_MODEL = "app_api.User"
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     # 'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -174,3 +177,13 @@ else:
 TY_ADMIN_CONFIG = {
     'GEN_APPS': ['app_api']
 }
+
+# CORS_ORIGIN_ALLOW_ALL为True，指定所有域名（ip）都可以访问后端接口，默认为False
+CORS_ORIGIN_ALLOW_ALL = True
+
+CORS_ORIGIN_WHITELIST = [
+    'http://127.0.0.1:8000',
+    'http://localhost:8000',
+    'http://192.168.6.23:8080'
+]
+CORS_ALLOW_CREDENTIALS = True
