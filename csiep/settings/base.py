@@ -22,7 +22,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__fil
 SECRET_KEY = 'mlol_o-+fk#q@^!p-#yeppbu0cq-e6v36trv!&qvlrb=1@%%yx'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ["*"]
 
@@ -161,6 +161,7 @@ REST_FRAMEWORK = {
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
+
 EMAIL_HOST = "smtp.qq.com"
 EMAIL_PORT = 25
 EMAIL_HOST_USER = "123456@qq.com"
@@ -170,6 +171,7 @@ EMAIL_FROM = "123456@qq.com"
 if DEBUG:
     STATICFILES_DIRS = [
         os.path.join(BASE_DIR, "static"),
+        os.path.join(BASE_DIR, 'media'),
     ]
 else:
     STATIC_ROOT = os.path.join(BASE_DIR, 'static')
