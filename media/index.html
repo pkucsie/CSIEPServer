@@ -224,7 +224,7 @@
 		<div class="animationViewWrap">
 		  <!--PE-Slice:5844-start--><style>.box_slice5844 h3{color:#ffffff;}</style><div class="box_group box_slice5844" id="box_slice5844"><style>.box_slice5844 h2{;padding-left:-1px;color:#ffffff}.box_slice5844 h2 span.title{height:auto;border-bottom:0;display:inline;;color:#ffffff }</style><h2 class="htitle"><span class="title"><b>组织机构 | ORGANIZATION</b></span></h2><div class="box_content animationViewWrap"><div class="box-slicestyle box_style0 box_styleen0 seams"><div class="box-media box_media0 box_include">
 <h3><span class="htitle">指导单位</span></h3>
-<div class="box-plugin medialist media-list c1" data-plugin="plugin_media"><ul>
+<div class="box-plugin medialist media-list c1" data-plugin="plugin_media"><ul id='orgdul'>
 <li><img src="./images/20190318165800713.png" data-src="https://events.pedaily.cn/eventspic/201903/20190318165800713.png" alt="江西省人民政府" style="display: block;"></li>
 
 <div class="clear"></div>
@@ -233,7 +233,7 @@
 </div>
 <div class="box-media box_media0 box_include">
 <h3><span class="htitle">主办单位</span></h3>
-<div class="box-plugin medialist media-list c3" data-plugin="plugin_media"><ul id='orgul'>
+<div class="box-plugin medialist media-list c3" data-plugin="plugin_media"><ul id='orgsul'>
 <li><img src="./images/20201112144720143.png" data-src="https://events.pedaily.cn/eventspic/202011/20201112144720143.png" alt="南昌市人民政府" style="display: block;"></li>
 
 <div class="clear"></div>
@@ -242,7 +242,7 @@
 </div>
 <div class="box-media box_media0 box_include">
 <h3><span class="htitle">承办单位</span></h3>
-<div class="box-plugin medialist media-list c6" data-plugin="plugin_media"><ul>
+<div class="box-plugin medialist media-list c6" data-plugin="plugin_media"><ul id='orgaul'>
 <li><img src="./images/20201112144847800.png" data-src="https://events.pedaily.cn/eventspic/202011/20201112144847800.png" alt="青云谱区人民政府" style="display: block;"></li>
 <li><img src="./images/20201130154944174.png" data-src="https://events.pedaily.cn/eventspic/202011/20201130154944174.png" alt="南昌市科学技术局" style="display: block;"></li>
 <li><img src="./images/20190531193342567.png" data-src="https://events.pedaily.cn/eventspic/201905/20190531193342567.png" alt="中科心客" style="display: block;"></li>
@@ -256,7 +256,7 @@
 </div>
 <div class="box-media box_media1 box_include">
 <h3><span class="htitle">支持单位</span></h3>
-<div class="box-plugin medialist media-list c3" data-plugin="plugin_media"><ul>
+<div class="box-plugin medialist media-list c3" data-plugin="plugin_media"><ul id='orguul'>
 <li><img src="./images/20201205200152832.png" data-src="https://events.pedaily.cn/eventspic/202012/20201205200152832.png" alt="科创板日报" style="display: block;"></li>
 <li><a href="http://www.ganshang.org.cn/" target="_blank"><img src="./images/20201209125237195.png" data-src="https://events.pedaily.cn/eventspic/202012/20201209125237195.png" alt="赣商联合总会" style="display: block;"></a></li>
 <li><img src="./images/20201209150934592.png" data-src="https://events.pedaily.cn/eventspic/202012/20201209150934592.png" alt="南昌商会联合总会" style="display: block;"></li>
@@ -477,16 +477,36 @@
             dataType:'json',
             success:function(data){
                 //console.log(data['data'][0]);
-                var ulstr = '';
+                var dulstr = '';
+								var sulstr = '';
+								var aulstr = '';
+								var uulstr = '';
                 $.each(data['data'],function (idx,item) {
                  var name = data['data'][idx].name;
-                 var avatar = data['data'][idx].avatar;                 
-                 //$("#orgul").html($("#orgul").html() + "<br>" + name + " - " + idnumber + " - " + sex + "<br/>");
-                 ulstr += '<li><img src="'+avatar+'" data-src="'+avatar+'" alt="'+name+'" style="display: block;"></li>';
-
+                 var orgtype = data['data'][idx].orgtype;
+                 var avatar = data['data'][idx].avatar;
+                 if(orgtype == 'director'){
+	                 //$("#orgul").html($("#orgul").html() + "<br>" + name + " - " + idnumber + " - " + sex + "<br/>");
+	                 dulstr += '<li><img src="'+avatar+'" data-src="'+avatar+'" alt="'+name+'" style="display: block;"></li>';
+                 }
+                 if(orgtype == 'sponsor'){
+	                 //$("#orgul").html($("#orgul").html() + "<br>" + name + " - " + idnumber + " - " + sex + "<br/>");
+	                 sulstr += '<li><img src="'+avatar+'" data-src="'+avatar+'" alt="'+name+'" style="display: block;"></li>';
+                 }
+                 if(orgtype == 'agency'){
+	                 //$("#orgul").html($("#orgul").html() + "<br>" + name + " - " + idnumber + " - " + sex + "<br/>");
+	                 aulstr += '<li><img src="'+avatar+'" data-src="'+avatar+'" alt="'+name+'" style="display: block;"></li>';
+                 }
+                 if(orgtype == 'supporter'){
+	                 //$("#orgul").html($("#orgul").html() + "<br>" + name + " - " + idnumber + " - " + sex + "<br/>");
+	                 uulstr += '<li><img src="'+avatar+'" data-src="'+avatar+'" alt="'+name+'" style="display: block;"></li>';
+                 }
                 });//item循环
                 //console.log(ulstr);
-                $("#orgul").html(ulstr);
+                $("#orgdul").html(dulstr);
+                $("#orgsul").html(sulstr);
+                $("#orgaul").html(aulstr);
+                $("#orguul").html(uulstr);
             }
         });
 
