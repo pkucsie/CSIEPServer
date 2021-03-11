@@ -22,7 +22,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__fil
 SECRET_KEY = 'mlol_o-+fk#q@^!p-#yeppbu0cq-e6v36trv!&qvlrb=1@%%yx'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
@@ -169,12 +169,13 @@ EMAIL_HOST_PASSWORD = ""
 EMAIL_USE_TLS = True
 EMAIL_FROM = "123456@qq.com"
 if DEBUG:
+    STATIC_ROOT = os.path.join(BASE_DIR, '/static/')
     STATICFILES_DIRS = [
         os.path.join(BASE_DIR, "static"),
         os.path.join(BASE_DIR, 'media'),
     ]
 else:
-    STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+    STATIC_ROOT = os.path.join(BASE_DIR, '/static/')
 
 TY_ADMIN_CONFIG = {
     'GEN_APPS': ['app_api']
