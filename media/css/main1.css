@@ -747,3 +747,4 @@ body:before {content: ""; background-image: inherit; position: fixed; top:0;righ
 @media screen and (max-width:320px){
 .banner, .banner ul, .banner ul li{height:120px !important;}
 }
+
