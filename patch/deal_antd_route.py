@@ -52,7 +52,7 @@ def gen_route(project_name_settings, user_label_list):
             group_name = model._meta.app_label
         menu_display_dict[group_name] = group_display
         model_name = model._meta.verbose_name
-        filtername = ['organization', 'vip_guest', 'judge', 'task_timeline', 'slider', 'permission', 'group', 'user']
+        filtername = ['organization', 'vip_guest', 'judge', 'task_timeline', 'slider', 'permission', 'group', 'user', 'project']
 
         url = f'/xadmin/{group_name}/{get_lower_case_name(model._meta.model.__name__)}'
         rootflag = False

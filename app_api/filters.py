@@ -1,8 +1,10 @@
 from django_filters import rest_framework as filters
 
-from app_api.models import Judge, Order, Coupon, Integral, Notice, Lesson, Organization, Question, Cart, User, Bill, Address, Catalog, Log, ReadType, Teacher, Comment, \
-    Hot, Recharge, LabelFollow, Student, Navigation, Read, Article, History, Qa, ArticleType, UserNotice, Slider, UserLesson, Nav, LabelType, \
-    IntegralType, Label, Footer, CommonPathConfig, Consult, VipGuest, Judge, Organization, TaskTimeline
+from app_api.models import Judge, Order, Coupon, Integral, Notice, Lesson, Organization, Question, Cart, User, Bill, \
+    Address, Catalog, Log, ReadType, Teacher, Comment, \
+    Hot, Recharge, LabelFollow, Student, Navigation, Read, Article, History, Qa, ArticleType, UserNotice, Slider, \
+    UserLesson, Nav, LabelType, \
+    IntegralType, Label, Footer, CommonPathConfig, Consult, VipGuest, Judge, Organization, TaskTimeline, Project
 
 
 class ConsultFilter(filters.FilterSet):
@@ -124,6 +126,16 @@ class JudgeFilter(filters.FilterSet):
     class Meta:
         model = Judge
         exclude = ["avatar"]
+
+class JudgeFilter(filters.FilterSet):
+    class Meta:
+        model = Judge
+        exclude = ["avatar"]
+
+class ProjectFilter(filters.FilterSet):
+    class Meta:
+        model = Project
+        exclude = ["project_file"]
 
 
 class TeacherFilter(filters.FilterSet):

@@ -406,7 +406,6 @@ class Organization(models.Model):
         verbose_name = '机构'
         verbose_name_plural = verbose_name
 
-
 class VipGuest(models.Model):
     name = models.CharField(max_length=255, verbose_name="嘉宾姓名", unique=True)
     avatar = SImageField(upload_to="vipguest_avatar", max_length=255, verbose_name="嘉宾头像")
@@ -431,7 +430,46 @@ class Judge(models.Model):
     class Meta:
         verbose_name = '评委'
         verbose_name_plural = verbose_name
+'''
+项目管理
+'''
+class Project(models.Model):
+    TRACK_CHOICES = (
+        ("public_welfare", "公益"),
+        ("education", "教育"),
+        ("health", "医疗大健康"),
+        ("environment_protection", "环保"),
+        ("internet", "互联网"),
+        ("ai", "人工智能"),
+        ("consumption", "新消费和食品"),
+        ("traffic", "汽车交通"),
+        ("manufacturing", "先进制造"),
 
+        ("iot_ar_vr", "物联网与AR、VR"),
+        ("materials_energy", "新材料与能源"),
+        ("other", "其他"),
+        ("finance", "金融"),
+    )
+
+    GROUP_TYPE_CHOICES = (
+        ("creative", "创意组"),
+        ("startup", "初创组"),
+
+    )
+
+    project_name = models.CharField(max_length=255, verbose_name="项目名称")
+    project_stage = models.IntegerField(verbose_name="所处阶段")
+    project_track = models.CharField(max_length=255, verbose_name="项目赛道", choices=TRACK_CHOICES)
+    project_group_type = models.CharField(max_length=255, verbose_name="项目组别", choices=GROUP_TYPE_CHOICES)
+    project_leader_name = models.CharField(max_length=255, verbose_name="领队姓名")
+    project_phone = models.CharField(max_length=255, verbose_name="联系电话")
+    project_introduction = models.TextField( verbose_name="项目简介")
+    project_file = models.CharField(max_length=255, verbose_name="项目相关文件")
+
+
+    class Meta:
+        verbose_name = '项目'
+        verbose_name_plural = verbose_name
 
 class Teacher(models.Model):
     name = models.CharField(max_length=255, verbose_name="讲师姓名", unique=True)
