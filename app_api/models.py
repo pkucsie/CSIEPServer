@@ -419,17 +419,47 @@ class VipGuest(models.Model):
         verbose_name = '嘉宾'
         verbose_name_plural = verbose_name
 
+class Track(models.Model) :
+    track_key = models.CharField(max_length=50, default="other", verbose_name="赛道唯一标识", unique=True)
+    track_name = models.CharField(max_length=50, default="其他", verbose_name="赛道名称", unique=True)
+    class Meta:
+        verbose_name = '赛道'
+        verbose_name_plural = verbose_name
+
+    def __str__(self):
+        return self.track_name
+
+
+
 
 class Judge(models.Model):
+    TRACK_CHOICES = (
+        ("public_welfare", "公益"),
+        ("education", "教育"),
+        ("health", "医疗大健康"),
+        ("environment_protection", "环保"),
+        ("internet", "互联网"),
+        ("ai", "人工智能"),
+        ("consumption", "新消费和食品"),
+        ("traffic", "汽车交通"),
+        ("manufacturing", "先进制造"),
+        ("iot_ar_vr", "物联网与AR、VR"),
+        ("materials_energy", "新材料与能源"),
+        ("other", "其他"),
+        ("finance", "金融"),
+    )
+
     name = models.CharField(max_length=255, verbose_name="评委姓名", unique=True)
     avatar = SImageField(upload_to="judge_avatar", max_length=255, verbose_name="评委头像")
     job = models.CharField(max_length=255, verbose_name="评委职业")
     introduction = models.TextField(verbose_name="评委介绍")
     order = models.IntegerField(default=0, verbose_name="排序")
-
+    track = models.ManyToManyField(Track, blank=True, verbose_name="赛道")
     class Meta:
         verbose_name = '评委'
         verbose_name_plural = verbose_name
+
+
 '''
 项目管理
 '''
