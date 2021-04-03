@@ -5,12 +5,13 @@
 
 使用TyAdmin(现代化的Xadmin替代品)生成管理后台前后端，并自动对接。✨ 强烈推荐使用:
 
->https://github.com/mtianyan/tyadmin_api_cli 
+>https://github.com/mtianyan/tyadmin_api_cli
 
 📨 互动交流微信: 1
 
-- 前台体验地址: 
-- 在线体验地址: 
+- 前台体验地址:
+- 在线体验地址:
+
 
 主页参考：
 https://events.pedaily.cn/customized/923/
@@ -28,7 +29,7 @@ https://events.pedaily.cn/customized/923/
 
 
 Vue前台代码地址: https://github.com/mtianyan/vue-mooc
-Vue前台代码原作者及文档: https://github.com/wangtunan/vue-mooc 
+Vue前台代码原作者及文档: https://github.com/wangtunan/vue-mooc
 
 ## 运行指南:
 
@@ -42,7 +43,7 @@ docker-compose up
 # 导入数据
 docker exec -it onlinemooc_mtianyan_mysql_1 bash
 mysql -u root -p -D online_mooc < sql/online_mooc.sql
-# 输入密码: mtianyanroot 
+# 输入密码: mtianyanroot
 ```
 
 ### 本地环境运行
@@ -99,7 +100,7 @@ TY_ADMIN_CONFIG = {
 }
 ```
 
-GEN_APPS: 填写你想要生成的app列表。 
+GEN_APPS: 填写你想要生成的app列表。
 
 #### 初始化 后端app(tyadmin_api) + 前端项目(tyadmin)  && 生成后端自动化的视图，过滤器，路由，序列器 + 前端页面及路由菜单
 

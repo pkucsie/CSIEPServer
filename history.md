@@ -4,6 +4,11 @@
 1、跨域cors开启
 2、media具有js执行权限DEBUG=False状态
 
+2021-03-29 kingkong
+*更新banner
+
+2021-03-26 kingkong
+*页面按风格调整
 
 2021-03-11 kingkong
 +由于前端功能无法支持移动端，增加静态页面解决
