@@ -4,10 +4,14 @@ import time
 from rest_framework import serializers
 from rest_framework.relations import StringRelatedField
 
-from app_api.models import Order, Coupon, Integral, Notice, Lesson, Question, Cart, User, Bill, Address, Catalog, Log, ReadType, Teacher, Comment, \
-    Hot, Recharge, LabelFollow, Student, Navigation, Read, Article, History, Qa, ArticleType, UserNotice, Slider, UserLesson, Nav, LabelType, \
-    IntegralType, Label, Footer, CommonPathConfig, StudentType, LessonType, LessonHardType, Chapter, Term, QaType, RechargeAction, RechargePay, \
-    CouponRange, CouponStatus, OrderItem, OrderStatus, Consult, ReadChapterItem, ReadChapter, LogType, VipGuest, Judge, Organization, TaskTimeline
+from app_api.models import Order, Coupon, Integral, Notice, Lesson, Question, Cart, User, Bill, Address, Catalog, Log, \
+    ReadType, Teacher, Comment, \
+    Hot, Recharge, LabelFollow, Student, Navigation, Read, Article, History, Qa, ArticleType, UserNotice, Slider, \
+    UserLesson, Nav, LabelType, \
+    IntegralType, Label, Footer, CommonPathConfig, StudentType, LessonType, LessonHardType, Chapter, Term, QaType, \
+    RechargeAction, RechargePay, \
+    CouponRange, CouponStatus, OrderItem, OrderStatus, Consult, ReadChapterItem, ReadChapter, LogType, VipGuest, Judge, \
+    Organization, TaskTimeline, Project
 
 
 class ConsultSerializer(serializers.ModelSerializer):
@@ -161,6 +165,12 @@ class JudgeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Judge
         fields = "__all__"
+
+class ProjectSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Project
+        fields = "__all__"
+
 
 
 class TeacherSerializer(serializers.ModelSerializer):

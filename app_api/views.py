@@ -21,23 +21,37 @@ from app_api.app_viewset import MyViewSet
 from app_api.custom_render import MyJSONRenderer
 from utils.log_utils import login_log_save
 from utils.utils import get_order_no, log_save
-from app_api.models import Judge, Order, Coupon, Integral, Notice, Lesson, Organization, Question, Cart, User, Bill, Address, Catalog, Log, ReadType, Teacher, Comment, \
-    Hot, Recharge, LabelFollow, Student, Navigation, Read, Article, History, Qa, ArticleType, UserNotice, Slider, UserLesson, Nav, LabelType, \
-    IntegralType, Label, Footer, CommonPathConfig, Chapter, RechargePay, RechargeAction, OrderItem, OrderStatus, Consult, VipGuest, Judge, \
-    Organization, TaskTimeline
+from app_api.models import Judge, Order, Coupon, Integral, Notice, Lesson, Organization, Question, Cart, User, Bill, \
+    Address, Catalog, Log, ReadType, Teacher, Comment, \
+    Hot, Recharge, LabelFollow, Student, Navigation, Read, Article, History, Qa, ArticleType, UserNotice, Slider, \
+    UserLesson, Nav, LabelType, \
+    IntegralType, Label, Footer, CommonPathConfig, Chapter, RechargePay, RechargeAction, OrderItem, OrderStatus, \
+    Consult, VipGuest, Judge, \
+    Organization, TaskTimeline, Project
 
-from app_api.serializers import OrderSerializer, CouponSerializer, IntegralSerializer, NoticeSerializer, LessonSerializer, QuestionSerializer, \
-    CartSerializer, UserSerializer, BillSerializer, AddressSerializer, CatalogSerializer, LogSerializer, ReadTypeSerializer, TeacherSerializer, \
-    CommentSerializer, HotSerializer, RechargeSerializer, LabelFollowSerializer, StudentSerializer, NavigationSerializer, ReadSerializer, \
-    ArticleSerializer, HistorySerializer, QaSerializer, ArticleTypeSerializer, UserNoticeSerializer, SliderSerializer, UserLessonSerializer, \
-    NavSerializer, LabelTypeSerializer, IntegralTypeSerializer, LabelSerializer, FooterSerializer, CommonPathConfigSerializer, LessonInfoSerializer, \
-    ChapterSerializer, RechargeListSerializer, OrderInfoSerializer, OrderListSerializer, ConsultSerializer, ReadInfoSerializer, \
-    LabelTypeHomeSerializer, VipGuestSerializer, JudgeSerializer, OrganizationSerializer, TaskTimelineSerializer
-from app_api.filters import OrderFilter, CouponFilter, IntegralFilter, NoticeFilter, LessonFilter, QuestionFilter, CartFilter, UserFilter, BillFilter, \
-    AddressFilter, CatalogFilter, LogFilter, ReadTypeFilter, TeacherFilter, CommentFilter, HotFilter, RechargeFilter, LabelFollowFilter, \
-    StudentFilter, NavigationFilter, ReadFilter, ArticleFilter, HistoryFilter, QaFilter, ArticleTypeFilter, UserNoticeFilter, SliderFilter, \
-    UserLessonFilter, NavFilter, LabelTypeFilter, IntegralTypeFilter, LabelFilter, FooterFilter, CommonPathConfigFilter, ConsultFilter, VipGuestFilter, \
-    JudgeFilter, OrganizationFilter, TaskTimelineFilter
+from app_api.serializers import OrderSerializer, CouponSerializer, IntegralSerializer, NoticeSerializer, \
+    LessonSerializer, QuestionSerializer, \
+    CartSerializer, UserSerializer, BillSerializer, AddressSerializer, CatalogSerializer, LogSerializer, \
+    ReadTypeSerializer, TeacherSerializer, \
+    CommentSerializer, HotSerializer, RechargeSerializer, LabelFollowSerializer, StudentSerializer, \
+    NavigationSerializer, ReadSerializer, \
+    ArticleSerializer, HistorySerializer, QaSerializer, ArticleTypeSerializer, UserNoticeSerializer, SliderSerializer, \
+    UserLessonSerializer, \
+    NavSerializer, LabelTypeSerializer, IntegralTypeSerializer, LabelSerializer, FooterSerializer, \
+    CommonPathConfigSerializer, LessonInfoSerializer, \
+    ChapterSerializer, RechargeListSerializer, OrderInfoSerializer, OrderListSerializer, ConsultSerializer, \
+    ReadInfoSerializer, \
+    LabelTypeHomeSerializer, VipGuestSerializer, JudgeSerializer, OrganizationSerializer, TaskTimelineSerializer, \
+    ProjectSerializer
+from app_api.filters import OrderFilter, CouponFilter, IntegralFilter, NoticeFilter, LessonFilter, QuestionFilter, \
+    CartFilter, UserFilter, BillFilter, \
+    AddressFilter, CatalogFilter, LogFilter, ReadTypeFilter, TeacherFilter, CommentFilter, HotFilter, RechargeFilter, \
+    LabelFollowFilter, \
+    StudentFilter, NavigationFilter, ReadFilter, ArticleFilter, HistoryFilter, QaFilter, ArticleTypeFilter, \
+    UserNoticeFilter, SliderFilter, \
+    UserLessonFilter, NavFilter, LabelTypeFilter, IntegralTypeFilter, LabelFilter, FooterFilter, CommonPathConfigFilter, \
+    ConsultFilter, VipGuestFilter, \
+    JudgeFilter, OrganizationFilter, TaskTimelineFilter, ProjectFilter
 
 
 class ConsultViewSet(MyViewSet):
@@ -462,6 +476,11 @@ class JudgeViewSet(MyViewSet):
     serializer_class = JudgeSerializer
     queryset = Judge.objects.all()
     filter_class = JudgeFilter
+
+class ProjectViewSet(MyViewSet):
+    serializer_class = ProjectSerializer
+    queryset = Project.objects.all()
+    filter_class = ProjectFilter
 
 
 class TeacherViewSet(MyViewSet):
