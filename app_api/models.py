@@ -392,6 +392,8 @@ class Organization(models.Model):
         ("director", "指导单位"),
         ("sponsor", "主办单位"),
         ("agency", "承办单位"),
+        ("donator", "赞助单位"),
+        ("strategy", "战略合作单位"),        
         ("supporter", "支持单位"),
     )    
     name = models.CharField(max_length=255, verbose_name="机构名称", unique=True)
