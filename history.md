@@ -4,6 +4,16 @@
 1、跨域cors开启
 2、media具有js执行权限DEBUG=False状态
 
+2021-04-06 kingkong
+*更新大赛说明
+*更新学社二维码
+*更新大赛LOGO
+*增加机构类型
+
+2021-04-03 yhcui
++增加项目管理
++增加赛道
+
 2021-03-29 kingkong
 *更新banner
 

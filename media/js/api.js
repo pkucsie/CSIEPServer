@@ -61,8 +61,8 @@ function timer(date1,date2,isen){
 		date2=date1;
 	}
 	isen=checkValue(isen,0);
-	var msg1=isen==1?'End of the Eent':'大会已结束'
-	var msg2=isen==1?'Meeting':'大会进行中'
+	var msg1=isen==1?'End of the Eent':'大赛已结束'
+	var msg2=isen==1?'Meeting':'大赛进行中'
 
 	var now=date.pattern("yyyy-MM-dd hh:mm:ss");  
 
@@ -506,7 +506,7 @@ var _Web={
 			if (cols<=1){
 				$mapcontent.closest('.main').removeClass('main');
 			}
-			var markerArr = [{title:""+$mapcontent.data('title')+"",content:""+$mapcontent.data('address')+"",point:""+pointx+"|"+pointy+"",isOpen:1,icon:{w:23,h:25,l:23,t:21,x:9,lb:12}}];
+			var markerArr = [{title:""+$mapcontent.data('title')+"",content:""+$mapcontent.data('address')+"",point:""+pointx+"|"+pointy+"",isOpen:1,icon:{w:23,h:25,l:23,t:21,x:9,lb:12}}];			
 			createMap(pointx,pointy);//创建地图
 			setMapEvent();//设置地图事件
 			addMapControl();//向地图添加控件
