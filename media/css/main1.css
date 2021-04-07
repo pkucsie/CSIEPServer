@@ -233,7 +233,7 @@ dl,dt,dd{margin:0;padding:0}
 .map-list{text-align:center;line-height:1.2;}
 .map-list img{max-width:600px;display:block;margin:30px auto 0;}
 .box-map.box-map2 .map-list{float:left;;width:540px;}
-.box-map.box-map2 .map-traffic{height:420px;margin-left:540px;padding:15px 20px;background:url(../images/20190328160408202.jpg) no-repeat;background-size:cover;position:relative;font-size:.95em;}
+.box-map.box-map2 .map-traffic{height:420px;margin-left:540px;padding:15px 20px;background:url(../media/images/20190328160408202.jpg) no-repeat;background-size:cover;position:relative;font-size:.95em;}
 .box-map.box-map2 .map-traffic::before{content:'';width:100%;height:100%;display:block;background:rgba(0,0,0,.7);position:absolute;top:0;left:0;}
 .box-map.box-map2 .map-traffic .box-traffic{position:relative;}
 .box-map.box-map2 dl{margin-bottom: 15px;}
