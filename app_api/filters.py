@@ -116,10 +116,12 @@ class OrganizationFilter(filters.FilterSet):
         exclude = ["avatar"]
 
 
-class VipGuestFilter(filters.FilterSet):
+class VipGuestFilter(filters.FilterSet):    
+    #id = filters.NumberFilter(field_name="id")
     class Meta:
         model = VipGuest
-        exclude = ["avatar"]
+        # exclude = ["avatar"]
+        fields = ["id", "name", "job", "introduction", "order"]
 
 
 class JudgeFilter(filters.FilterSet):
