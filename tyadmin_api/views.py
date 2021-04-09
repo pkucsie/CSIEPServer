@@ -112,7 +112,7 @@ class LoginView(MtyCustomExecView):
                 return JsonResponse({
                     "status": 'ok',
                     "type": "account",
-                    "currentAuthority": ""
+                    "currentAuthority": user.weibo
                 })
             else:
                 raise ValidationError({"password": ["密码错误"]})

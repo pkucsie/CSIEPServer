@@ -391,7 +391,7 @@ class Organization(models.Model):
     ORG_CHOICES = (
         ("director", "指导单位"),
         ("sponsor", "主办单位"),
-        ("agency", "承办单位"),
+        ("agency", "联合主办单位"),
         ("donator", "赞助单位"),
         ("strategy", "战略合作单位"),        
         ("supporter", "支持单位"),
