@@ -67,6 +67,7 @@ def gen_route(project_name_settings, user_label_list):
                 "{",
                 f"  name: '{model_name}',",
                 f"  path: '{url}',",
+                f"  authority: ['admin', 'user'],",
                 f"  component: './AutoGenPage/{model._meta.model.__name__}List',",
                 "}",
             ])
@@ -80,6 +81,7 @@ def gen_route(project_name_settings, user_label_list):
                 "{",
                 f"  name: '{model_name}',",
                 f"  path: '{url}',",
+                f"  authority: ['admin', 'user'],",
                 f"  component: './AutoGenPage/{model._meta.model.__name__}List',",
                 "}",
             ])
@@ -95,6 +97,8 @@ def gen_route(project_name_settings, user_label_list):
             "{",
             f"  name: '{menu_display_dict[group_name]}',",
             "   icon: 'BarsOutlined',",
+            f"  Routes: ['./Authorized'],",
+            f"  authority: ['admin', 'user'],",
             f"  path: '/xadmin/{group_name}',",
             "   routes:",
             "   [",
