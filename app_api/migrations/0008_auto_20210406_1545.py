@@ -10,44 +10,9 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.CreateModel(
-            name='Project',
-            fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('project_name', models.CharField(max_length=255, verbose_name='项目名称')),
-                ('project_stage', models.IntegerField(verbose_name='所处阶段')),
-                ('project_track', models.CharField(choices=[('public_welfare', '公益'), ('education', '教育'), ('health', '医疗大健康'), ('environment_protection', '环保'), ('internet', '互联网'), ('ai', '人工智能'), ('consumption', '新消费和食品'), ('traffic', '汽车交通'), ('manufacturing', '先进制造'), ('iot_ar_vr', '物联网与AR、VR'), ('materials_energy', '新材料与能源'), ('other', '其他'), ('finance', '金融')], max_length=255, verbose_name='项目赛道')),
-                ('project_group_type', models.CharField(choices=[('creative', '创意组'), ('startup', '初创组')], max_length=255, verbose_name='项目组别')),
-                ('project_leader_name', models.CharField(max_length=255, verbose_name='领队姓名')),
-                ('project_phone', models.CharField(max_length=255, verbose_name='联系电话')),
-                ('project_introduction', models.TextField(verbose_name='项目简介')),
-                ('project_file', models.CharField(max_length=255, verbose_name='项目相关文件')),
-            ],
-            options={
-                'verbose_name': '项目',
-                'verbose_name_plural': '项目',
-            },
-        ),
-        migrations.CreateModel(
-            name='Track',
-            fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('track_key', models.CharField(default='other', max_length=50, unique=True, verbose_name='赛道唯一标识')),
-                ('track_name', models.CharField(default='其他', max_length=50, unique=True, verbose_name='赛道名称')),
-            ],
-            options={
-                'verbose_name': '赛道',
-                'verbose_name_plural': '赛道',
-            },
-        ),
-        migrations.AlterField(
+         migrations.AlterField(
             model_name='organization',
             name='orgtype',
             field=models.CharField(choices=[('director', '指导单位'), ('sponsor', '主办单位'), ('agency', '承办单位'), ('donator', '赞助单位'), ('strategy', '战略合作单位'), ('supporter', '支持单位')], default='sponsor', max_length=255, verbose_name='机构类型'),
-        ),
-        migrations.AddField(
-            model_name='judge',
-            name='track',
-            field=models.ManyToManyField(blank=True, to='app_api.Track', verbose_name='赛道'),
-        ),
+        )
     ]

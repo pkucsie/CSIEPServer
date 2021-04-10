@@ -4,6 +4,9 @@
 1、跨域cors开启
 2、media具有js执行权限DEBUG=False状态
 
+2021-04-09 kingkong
++初步解决页面权限的问题
+
 2021-04-06 kingkong
 *更新大赛说明
 *更新学社二维码

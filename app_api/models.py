@@ -391,10 +391,13 @@ class Organization(models.Model):
     ORG_CHOICES = (
         ("director", "指导单位"),
         ("sponsor", "主办单位"),
-        ("agency", "承办单位"),
+        ("agency", "联合主办单位"),
         ("donator", "赞助单位"),
         ("strategy", "战略合作单位"),        
         ("supporter", "支持单位"),
+        ("auxorg", "协办单位—机构组织"),
+        ("auxuniv", "协办单位—各高校研会"),
+        ("auxaux", "协办单位—各高校创协"),
     )    
     name = models.CharField(max_length=255, verbose_name="机构名称", unique=True)
     orgtype = models.CharField(max_length=255, choices=ORG_CHOICES, verbose_name="机构类型", default='sponsor')
