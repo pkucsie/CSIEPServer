@@ -111,13 +111,20 @@ class TaskTimelineFilter(filters.FilterSet):
 
 
 class OrganizationFilter(filters.FilterSet):
+    sort = filters.OrderingFilter(fields=('order',))
+    # filter_backends = (filters.SearchFilter, filters.OrderingFilter,)
+    # ordering_fields = ('order')
     class Meta:
         model = Organization
-        exclude = ["avatar"]
+        #exclude = ["avatar"]
+        fields = ["id", "name", "service", "introduction", "orgurl", "order"]
 
 
 class VipGuestFilter(filters.FilterSet):    
     #id = filters.NumberFilter(field_name="id")
+    sort = filters.OrderingFilter(fields=('order',))
+    # filter_backends = (filters.SearchFilter, filters.OrderingFilter,)
+    # ordering_fields = ('order')
     class Meta:
         model = VipGuest
         # exclude = ["avatar"]

@@ -304,7 +304,7 @@ var _Guest={
          var job = data['data'][idx].job;
          var avatar = data['data'][idx].avatar;
          var desc = data['data'][idx].introduction;
-					var datactx = '<div class="peopleshow"><div class="peopleimg"><div><img src="'+avatar+'" alt="'+name+'"></div></div><div class="peopleinfo"><div class="peoplename">'+name+'</div><div class="peoplejob">'+job+'</div><div class="peopledes">'+desc+'</div></div></div>';					
+					var datactx = '<div class="peopleshow"><div class="peopleimg"><div><img src="'+avatar+'" alt="'+name+'"></div></div><div class="peopleinfo"><div class="peoplename">'+name+'</div><div class="peoplejob">'+job+'</div><div class="peopledes">'+desc+'</div></div></div>';
 				layer.open({
 					type: 1,
 					area: ["600px", "500px"],
@@ -365,6 +365,13 @@ var _Media={
 				url: $(this).data("href"), //需要获取的页面内容
 				async:true,
 				success:function(data){
+				 var idx = 0;
+	       var did = data['data'][idx].id;
+         var name = data['data'][idx].name;
+         var avatar = data['data'][idx].avatar;
+         var url = data['data'][idx].orgurl;
+         var desc = data['data'][idx].introduction;
+					var datactx = '<div class="companyshow">	<div class="companyimg"><div><img src="'+avatar+'" alt="'+name+'"></div></div>	<div class="companyinfo">		<div class="companyname">'+name+'</div>		<div class="companyurl"><a href="'+url+'" target="_blank"><i class="iconfont icon-home"></i> '+url+'</a></div>		<div class="companydes">			'+desc+'		</div>	</div></div>';
 				layer.open({
 					type: 1,
 					area: ["600px", "500px"],
@@ -375,7 +382,7 @@ var _Media={
 					closeBtn: 0,
 					shadeClose: true,
 					shade: 0.8,
-					content: data
+					content: datactx
 				})
 				}
 			});			
