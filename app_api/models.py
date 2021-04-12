@@ -455,9 +455,10 @@ class Judge(models.Model):
     )
 
     name = models.CharField(max_length=255, verbose_name="评委姓名", unique=True)
-    avatar = SImageField(upload_to="judge_avatar", max_length=255, verbose_name="评委头像")
+    # avatar = SImageField(upload_to="judge_avatar", max_length=255, verbose_name="评委头像", blank=True)
     job = models.CharField(max_length=255, verbose_name="评委职业")
-    introduction = models.TextField(verbose_name="评委介绍")
+    # introduction = models.TextField(verbose_name="评委介绍", blank=True)
+    mail = models.EmailField(verbose_name="邮箱", max_length=255)
     order = models.IntegerField(default=0, verbose_name="排序")
     track = models.ManyToManyField(Track, blank=True, verbose_name="赛道")
     class Meta:
@@ -493,13 +494,13 @@ class Project(models.Model):
     )
 
     project_name = models.CharField(max_length=255, verbose_name="项目名称")
-    project_stage = models.IntegerField(verbose_name="所处阶段")
-    project_track = models.CharField(max_length=255, verbose_name="项目赛道", choices=TRACK_CHOICES)
+    # project_stage = models.IntegerField(verbose_name="所处阶段")
+    project_track = models.ForeignKey(Track, verbose_name="项目赛道", on_delete=models.DO_NOTHING)
     project_group_type = models.CharField(max_length=255, verbose_name="项目组别", choices=GROUP_TYPE_CHOICES)
     project_leader_name = models.CharField(max_length=255, verbose_name="领队姓名")
     project_phone = models.CharField(max_length=255, verbose_name="联系电话")
     project_introduction = models.TextField( verbose_name="项目简介")
-    project_file = models.CharField(max_length=255, verbose_name="项目相关文件")
+    # project_file = models.CharField(max_length=255, verbose_name="项目相关文件")
 
 
     class Meta:
