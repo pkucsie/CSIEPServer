@@ -391,8 +391,8 @@ class Organization(models.Model):
     ORG_CHOICES = (
         ("director", "指导单位"),
         ("sponsor", "主办单位"),
-        ("agency", "联合主办单位"),
-        ("donator", "赞助单位"),
+        ("agency", "银牌金牌"),
+        ("donator", "金牌赞助"),
         ("strategy", "战略合作单位"),        
         ("supporter", "支持单位"),
         ("auxorg", "协办单位—机构组织"),
@@ -401,7 +401,7 @@ class Organization(models.Model):
     )    
     name = models.CharField(max_length=255, verbose_name="机构名称", unique=True)
     orgtype = models.CharField(max_length=255, choices=ORG_CHOICES, verbose_name="机构类型", default='sponsor')
-    avatar = SImageField(upload_to="org_avatar", max_length=255, verbose_name="机构图标")    
+    avatar = SImageField(upload_to="org_avatar", max_length=255, verbose_name="机构图标240x80px")    
     service = models.CharField(max_length=255, verbose_name="机构业务")
     orgurl = models.CharField(max_length=255, verbose_name="机构链接", default='')
     introduction = models.TextField(verbose_name="机构介绍")
@@ -413,7 +413,7 @@ class Organization(models.Model):
 
 class VipGuest(models.Model):
     name = models.CharField(max_length=255, verbose_name="嘉宾姓名", unique=True)
-    avatar = SImageField(upload_to="vipguest_avatar", max_length=255, verbose_name="嘉宾头像")
+    avatar = SImageField(upload_to="vipguest_avatar", max_length=255, verbose_name="嘉宾头像210x280px")
     #corp = models.CharField(max_length=255, verbose_name="嘉宾公司")
     job = models.CharField(max_length=255, verbose_name="嘉宾职业")
     introduction = models.TextField(verbose_name="个人介绍")
