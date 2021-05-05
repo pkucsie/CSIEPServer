@@ -411,6 +411,7 @@ class Organization(models.Model):
         verbose_name = '机构'
         verbose_name_plural = verbose_name
 
+
 class VipGuest(models.Model):
     name = models.CharField(max_length=255, verbose_name="嘉宾姓名", unique=True)
     avatar = SImageField(upload_to="vipguest_avatar", max_length=255, verbose_name="嘉宾头像210x280px")
@@ -424,17 +425,17 @@ class VipGuest(models.Model):
         verbose_name = '嘉宾'
         verbose_name_plural = verbose_name
 
-class Track(models.Model) :
+
+class Track(models.Model):
     track_key = models.CharField(max_length=50, default="other", verbose_name="赛道唯一标识", unique=True)
     track_name = models.CharField(max_length=50, default="其他", verbose_name="赛道名称", unique=True)
+
     class Meta:
         verbose_name = '赛道'
         verbose_name_plural = verbose_name
 
     def __str__(self):
         return self.track_name
-
-
 
 
 class Judge(models.Model):
@@ -461,6 +462,7 @@ class Judge(models.Model):
     mail = models.EmailField(verbose_name="邮箱", max_length=255)
     order = models.IntegerField(default=0, verbose_name="排序")
     track = models.ManyToManyField(Track, blank=True, verbose_name="赛道")
+
     class Meta:
         verbose_name = '评委'
         verbose_name_plural = verbose_name
@@ -502,10 +504,27 @@ class Project(models.Model):
     project_introduction = models.TextField( verbose_name="项目简介")
     # project_file = models.CharField(max_length=255, verbose_name="项目相关文件")
 
-
     class Meta:
         verbose_name = '项目'
         verbose_name_plural = verbose_name
+
+
+class Score(models.Model):
+    judge = models.ForeignKey(Judge, verbose_name="评委", on_delete=models.DO_NOTHING)
+    project = models.ForeignKey(Project, verbose_name="项目", on_delete=models.DO_NOTHING)
+    round = models.IntegerField(default=0, verbose_name="轮次")
+    innovation = models.IntegerField(default=0, verbose_name="创新性")
+    commercial = models.IntegerField(default=0, verbose_name="商业性")
+    competitiveness = models.IntegerField(default=0, verbose_name="竞争力")
+    team = models.IntegerField(default=0, verbose_name="团队情况")
+    public_benefit = models.IntegerField(default=0, verbose_name="社会收益")
+    sum = models.IntegerField(default=0, verbose_name="总分")
+    comment = models.TextField(verbose_name="点评")
+
+    class Meta:
+        verbose_name = '评分'
+        verbose_name_plural = verbose_name
+
 
 class Teacher(models.Model):
     name = models.CharField(max_length=255, verbose_name="讲师姓名", unique=True)

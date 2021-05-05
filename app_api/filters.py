@@ -136,15 +136,18 @@ class JudgeFilter(filters.FilterSet):
         model = Judge
         exclude = ["avatar"]
 
-class JudgeFilter(filters.FilterSet):
-    class Meta:
-        model = Judge
-        exclude = ["avatar"]
 
 class ProjectFilter(filters.FilterSet):
     class Meta:
         model = Project
         exclude = ["project_file"]
+
+
+class JudgeProductFilter(filters.FilterSet):
+
+    class Meta:
+        model = Judge
+        fields = ["id", "name", "job", "mail", "order", "track"]
 
 
 class TeacherFilter(filters.FilterSet):

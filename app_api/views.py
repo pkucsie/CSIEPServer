@@ -17,8 +17,8 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from app_api.app_page import AppPageNumberPagination
-from app_api.app_viewset import MyViewSet
-from app_api.custom_render import MyJSONRenderer
+from app_api.app_viewset import MyViewSet, MyViewSetS
+from app_api.custom_render import MyJSONRenderer, MyJSONRendererP
 from utils.log_utils import login_log_save
 from utils.utils import get_order_no, log_save
 from app_api.models import Judge, Order, Coupon, Integral, Notice, Lesson, Organization, Question, Cart, User, Bill, \
@@ -51,7 +51,7 @@ from app_api.filters import OrderFilter, CouponFilter, IntegralFilter, NoticeFil
     UserNoticeFilter, SliderFilter, \
     UserLessonFilter, NavFilter, LabelTypeFilter, IntegralTypeFilter, LabelFilter, FooterFilter, CommonPathConfigFilter, \
     ConsultFilter, VipGuestFilter, \
-    JudgeFilter, OrganizationFilter, TaskTimelineFilter, ProjectFilter
+    JudgeFilter, OrganizationFilter, TaskTimelineFilter, ProjectFilter, JudgeProductFilter
 
 
 class ConsultViewSet(MyViewSet):
@@ -466,6 +466,12 @@ class OrganizationViewSet(MyViewSet):
     filter_class = OrganizationFilter
 
 
+class JudgeProductViewSet(MyViewSetS):
+    serializer_class = JudgeSerializer
+    queryset = Judge.objects.all()
+    filter_class = JudgeProductFilter
+
+
 class VipGuestViewSet(MyViewSet):
     serializer_class = VipGuestSerializer
     queryset = VipGuest.objects.all()
@@ -476,6 +482,7 @@ class JudgeViewSet(MyViewSet):
     serializer_class = JudgeSerializer
     queryset = Judge.objects.all()
     filter_class = JudgeFilter
+
 
 class ProjectViewSet(MyViewSet):
     serializer_class = ProjectSerializer
