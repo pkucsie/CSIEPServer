@@ -4,7 +4,7 @@ from app_api.models import Judge, Order, Coupon, Integral, Notice, Lesson, Organ
     Address, Catalog, Log, ReadType, Teacher, Comment, \
     Hot, Recharge, LabelFollow, Student, Navigation, Read, Article, History, Qa, ArticleType, UserNotice, Slider, \
     UserLesson, Nav, LabelType, \
-    IntegralType, Label, Footer, CommonPathConfig, Consult, VipGuest, Judge, Organization, TaskTimeline, Project
+    IntegralType, Label, Footer, CommonPathConfig, Consult, VipGuest, Judge, Organization, TaskTimeline, Project, Score
 
 
 class ConsultFilter(filters.FilterSet):
@@ -148,6 +148,12 @@ class JudgeProductFilter(filters.FilterSet):
     class Meta:
         model = Judge
         fields = ["id", "name", "job", "mail", "order", "track"]
+
+
+class ScoreFilter(filters.FilterSet):
+    class Meta:
+        model = Score
+        fields = "__all__"
 
 
 class TeacherFilter(filters.FilterSet):

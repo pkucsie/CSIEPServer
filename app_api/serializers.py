@@ -11,7 +11,7 @@ from app_api.models import Order, Coupon, Integral, Notice, Lesson, Question, Ca
     IntegralType, Label, Footer, CommonPathConfig, StudentType, LessonType, LessonHardType, Chapter, Term, QaType, \
     RechargeAction, RechargePay, \
     CouponRange, CouponStatus, OrderItem, OrderStatus, Consult, ReadChapterItem, ReadChapter, LogType, VipGuest, Judge, \
-    Organization, TaskTimeline, Project
+    Organization, TaskTimeline, Project, Score
 
 
 class ConsultSerializer(serializers.ModelSerializer):
@@ -166,11 +166,17 @@ class JudgeSerializer(serializers.ModelSerializer):
         model = Judge
         fields = "__all__"
 
+
+class ScoreSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Score
+        fields = "__all__"
+
+
 class ProjectSerializer(serializers.ModelSerializer):
     class Meta:
         model = Project
         fields = "__all__"
-
 
 
 class TeacherSerializer(serializers.ModelSerializer):

@@ -26,7 +26,11 @@ router.register('home/timeline/?', views.TaskTimelineViewSet)
 
 router.register('home/org/?', views.OrganizationViewSet)
 
+# 给评委发项目链接
 router.register('home/judge_product/?', views.JudgeProductViewSet)
+
+# 评委给项目评分
+router.register('home/score/?', views.ScoreViewSet)
 
 router.register('home/vipguest/?', views.VipGuestViewSet)
 

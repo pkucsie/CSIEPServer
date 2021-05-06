@@ -17,7 +17,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from app_api.app_page import AppPageNumberPagination
-from app_api.app_viewset import MyViewSet, MyViewSetS
+from app_api.app_viewset import MyViewSet, MyViewSetS, MyViewSetScore
 from app_api.custom_render import MyJSONRenderer, MyJSONRendererP
 from utils.log_utils import login_log_save
 from utils.utils import get_order_no, log_save
@@ -27,7 +27,7 @@ from app_api.models import Judge, Order, Coupon, Integral, Notice, Lesson, Organ
     UserLesson, Nav, LabelType, \
     IntegralType, Label, Footer, CommonPathConfig, Chapter, RechargePay, RechargeAction, OrderItem, OrderStatus, \
     Consult, VipGuest, Judge, \
-    Organization, TaskTimeline, Project
+    Organization, TaskTimeline, Project, Score
 
 from app_api.serializers import OrderSerializer, CouponSerializer, IntegralSerializer, NoticeSerializer, \
     LessonSerializer, QuestionSerializer, \
@@ -42,7 +42,7 @@ from app_api.serializers import OrderSerializer, CouponSerializer, IntegralSeria
     ChapterSerializer, RechargeListSerializer, OrderInfoSerializer, OrderListSerializer, ConsultSerializer, \
     ReadInfoSerializer, \
     LabelTypeHomeSerializer, VipGuestSerializer, JudgeSerializer, OrganizationSerializer, TaskTimelineSerializer, \
-    ProjectSerializer
+    ProjectSerializer, ScoreSerializer
 from app_api.filters import OrderFilter, CouponFilter, IntegralFilter, NoticeFilter, LessonFilter, QuestionFilter, \
     CartFilter, UserFilter, BillFilter, \
     AddressFilter, CatalogFilter, LogFilter, ReadTypeFilter, TeacherFilter, CommentFilter, HotFilter, RechargeFilter, \
@@ -51,7 +51,7 @@ from app_api.filters import OrderFilter, CouponFilter, IntegralFilter, NoticeFil
     UserNoticeFilter, SliderFilter, \
     UserLessonFilter, NavFilter, LabelTypeFilter, IntegralTypeFilter, LabelFilter, FooterFilter, CommonPathConfigFilter, \
     ConsultFilter, VipGuestFilter, \
-    JudgeFilter, OrganizationFilter, TaskTimelineFilter, ProjectFilter, JudgeProductFilter
+    JudgeFilter, OrganizationFilter, TaskTimelineFilter, ProjectFilter, JudgeProductFilter,ScoreFilter
 
 
 class ConsultViewSet(MyViewSet):
@@ -466,10 +466,18 @@ class OrganizationViewSet(MyViewSet):
     filter_class = OrganizationFilter
 
 
+# 给评委发项目链接
 class JudgeProductViewSet(MyViewSetS):
     serializer_class = JudgeSerializer
     queryset = Judge.objects.all()
     filter_class = JudgeProductFilter
+
+
+# 评委给项目评分
+class ScoreViewSet(MyViewSetScore):
+    serializer_class = ScoreSerializer
+    queryset = Score.objects.all()
+    filter_class = ScoreFilter
 
 
 class VipGuestViewSet(MyViewSet):
