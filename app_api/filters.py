@@ -138,9 +138,10 @@ class JudgeFilter(filters.FilterSet):
 
 
 class ProjectFilter(filters.FilterSet):
+    sort = filters.OrderingFilter(fields=('id',))
     class Meta:
         model = Project
-        exclude = ["project_file"]
+        fields = ["id", "project_name", "project_track", "project_group_type", "project_leader_name", "project_phone"]
 
 
 class JudgeProductFilter(filters.FilterSet):
@@ -151,9 +152,11 @@ class JudgeProductFilter(filters.FilterSet):
 
 
 class ScoreFilter(filters.FilterSet):
+
     class Meta:
         model = Score
-        fields = "__all__"
+        fields = ["id", "round", "innovation", "commercial", "competitiveness", "team",
+                  "public_benefit",  "comment"]
 
 
 class TeacherFilter(filters.FilterSet):

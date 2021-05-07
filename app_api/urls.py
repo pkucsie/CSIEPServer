@@ -32,6 +32,8 @@ router.register('home/judge_product/?', views.JudgeProductViewSet)
 # 评委给项目评分
 router.register('home/score/?', views.ScoreViewSet)
 
+router.register('home/mark/score/?', views.ScoreMarkViewSet)
+
 router.register('home/vipguest/?', views.VipGuestViewSet)
 
 router.register('home/teacher/?', views.TeacherViewSet)

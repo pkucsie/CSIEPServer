@@ -525,6 +525,12 @@ class Score(models.Model):
         verbose_name = '评分'
         verbose_name_plural = verbose_name
 
+    @property
+    def sum_score(self):
+        self.sum = self.innovation + self.commercial + self.competitiveness + self.team + self.public_benefit
+        self.save()
+        return self.sum
+
 
 class Teacher(models.Model):
     name = models.CharField(max_length=255, verbose_name="讲师姓名", unique=True)

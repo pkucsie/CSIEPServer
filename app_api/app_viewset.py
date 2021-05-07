@@ -1,7 +1,7 @@
 from rest_framework import viewsets
 from rest_framework.renderers import BrowsableAPIRenderer
 
-from app_api.custom_render import MyJSONRenderer, MyJSONRendererP, MyJSONRendererScore
+from app_api.custom_render import MyJSONRenderer, MyJSONRendererP, MyJSONRendererScore,MyJSONRendererScoreMark
 
 
 class MyViewSet(viewsets.ReadOnlyModelViewSet):
@@ -17,3 +17,8 @@ class MyViewSetS(viewsets.ReadOnlyModelViewSet):
 class MyViewSetScore(viewsets.ReadOnlyModelViewSet):
     pagination_class = None
     renderer_classes = (MyJSONRendererScore, BrowsableAPIRenderer)
+
+
+class MyViewSetScoreMark(viewsets.ReadOnlyModelViewSet):
+    pagination_class = None
+    renderer_classes = (MyJSONRendererScoreMark, BrowsableAPIRenderer)

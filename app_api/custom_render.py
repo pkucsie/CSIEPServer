@@ -47,19 +47,23 @@ class MyJSONRendererScore(JSONRenderer):
         project_id = data[0]["id"]
         track_ids = []
         data_list = []
-        score = Score.objects.get(project_id=project_id)
+        score = Score.objects.filter(project_id=project_id)
         if score:
-            for checked_object in score.track.all():
+            for checked_object in score.all():
                 track_ids.append(checked_object.id)
         else:
             project = Project.objects.get(id=project_id)
-            score = Score.objects.create(project=project)
+            judge = Judge.objects.get(id=2)
+            score = Score.objects.create(project_id=project.id,judge_id=judge.id)
+            print("score:", score)
             score.round = 1
             score.save()
+            score = Score.objects.filter(project=project)
         for i in score:
             d = dict()
-            d["judge"] = i.judge
-            d["project"] = i.project
+            d["id"] = i.id
+            d["judge"] = i.judge.id
+            d["project"] = i.project.id
             d["round"] = i.round
             d["innovation"] = i.innovation
             d["commercial"] = i.commercial
@@ -68,12 +72,74 @@ class MyJSONRendererScore(JSONRenderer):
             d["public_benefit"] = i.public_benefit
             d["sum"] = i.sum
             d["comment"] = i.comment
-            data_list.append(d)
+            track_ids.append(d)
 
         ret_data = {'code': 0,
                     "msg": "success"}
         if data:
-            ret_data["data"] = data_list
+            ret_data["data"] = track_ids
         else:
             pass
         return super(MyJSONRendererScore, self).render(ret_data, accepted_media_type, renderer_context)
+
+
+class MyJSONRendererScoreMark(JSONRenderer):
+    def render(self, data, accepted_media_type=None, renderer_context=None):
+        print(data)
+        dat = data[0]
+        print(dat["id"])
+        print(dat["round"])
+        print(dat["innovation"])
+        print(dat["commercial"])
+        print(dat["competitiveness"])
+        print(dat["team"])
+        print(dat["public_benefit"])
+        print(dat["comment"])
+        print(dat["sum"])
+
+        score_id = dat["id"]
+        round = dat["round"]
+        innovation = dat["innovation"]
+        commercial = dat["commercial"]
+        competitiveness = dat["competitiveness"]
+        team = dat["team"]
+        public_benefit = dat["public_benefit"]
+        comment = dat["comment"]
+        sum = innovation + commercial + competitiveness + team + public_benefit
+        track_ids = []
+        data_list = []
+
+        score = Score.objects.get(id=score_id)
+        score.round = round
+        score.innovation = innovation
+        score.commercial = commercial
+        score.competitiveness = competitiveness
+        score.team = team
+        score.public_benefit = public_benefit
+        score.sum = sum
+        score.comment = comment
+        score.save()
+        score = Score.objects.filter(id=score_id)
+        for i in score:
+            d = dict()
+            d["id"] = i.id
+            d["judge"] = i.judge.id
+            d["project"] = i.project.id
+            d["round"] = i.round
+            d["innovation"] = i.innovation
+            d["commercial"] = i.commercial
+            d["competitiveness"] = i.competitiveness
+            d["team"] = i.team
+            d["public_benefit"] = i.public_benefit
+            d["sum"] = i.sum
+            d["comment"] = i.comment
+            track_ids.append(d)
+
+        ret_data = {'code': 0,
+                    "msg": "success"}
+        if data:
+            ret_data["data"] = track_ids
+        else:
+            pass
+        print("ret_data:",ret_data)
+        return super(MyJSONRendererScoreMark, self).render(ret_data, accepted_media_type, renderer_context)

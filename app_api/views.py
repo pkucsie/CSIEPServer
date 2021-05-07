@@ -17,7 +17,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from app_api.app_page import AppPageNumberPagination
-from app_api.app_viewset import MyViewSet, MyViewSetS, MyViewSetScore
+from app_api.app_viewset import MyViewSet, MyViewSetS, MyViewSetScore,MyViewSetScoreMark
 from app_api.custom_render import MyJSONRenderer, MyJSONRendererP
 from utils.log_utils import login_log_save
 from utils.utils import get_order_no, log_save
@@ -473,8 +473,15 @@ class JudgeProductViewSet(MyViewSetS):
     filter_class = JudgeProductFilter
 
 
-# 评委给项目评分
+# 初始化评分列表
 class ScoreViewSet(MyViewSetScore):
+    serializer_class = ProjectSerializer
+    queryset = Project.objects.all()
+    filter_class = ProjectFilter
+
+
+# 评委给评分表
+class ScoreMarkViewSet(MyViewSetScoreMark):
     serializer_class = ScoreSerializer
     queryset = Score.objects.all()
     filter_class = ScoreFilter
