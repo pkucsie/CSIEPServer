@@ -3,7 +3,7 @@ from datetime import datetime
 from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.models import AbstractUser
 from django.db import models
-
+import uuid
 
 from tyadmin_api_cli.fields import SImageField
 
@@ -879,3 +879,216 @@ class SysLog(models.Model):
         verbose_name = "系统日志"
         verbose_name_plural = verbose_name
         ordering = ('-action_time',)
+
+
+class Album(models.Model):
+    ALBUM_CHOICES = (
+        ("UNUSE", "待审核"),
+        ("COMM", "正常"),
+        ("OVER", "结束"),
+        ("PEDDING", "停用"),
+        ("DEL", "删除"),
+    )
+    id = models.UUIDField(primary_key=True, default=uuid.uuid1, editable=False)
+    userid = models.CharField(max_length=255, verbose_name="用户id")
+    title = models.CharField(max_length=255, verbose_name="标题", unique=True)
+    content = models.CharField(max_length=255, verbose_name="内容")
+    desc = models.CharField(max_length=255, blank=True, null=True, verbose_name="描述")
+    status = models.CharField(max_length=255, choices=ALBUM_CHOICES, verbose_name="状态")
+    type = models.CharField(max_length=255, default="其他", verbose_name="类型") # 同学时光,校园追忆,校友今夕,活动聚会,个人风采,其他
+    order = models.IntegerField(default=9999, verbose_name="排序")
+
+    viewcnt = models.IntegerField(default=0, verbose_name="访问次数")
+    favcnt = models.IntegerField(default=0, verbose_name="收藏人数")
+    commentcnt = models.IntegerField(default=0, verbose_name="评论数")
+    likecnt = models.IntegerField(default=0, verbose_name="点赞数")
+
+    pic = SImageField(upload_to="Album_img", max_length=255, verbose_name="附加图片")
+
+    addtime = models.DateTimeField(auto_now=True, verbose_name="添加时间")
+    edittime = models.DateTimeField(auto_now=True, verbose_name="修改时间")
+    addip = models.CharField(max_length=255, blank=True, null=True, verbose_name="添加IP")
+    editip = models.CharField(max_length=255, blank=True, null=True, verbose_name="修改IP")
+
+    class Meta:
+        verbose_name = '校友录'
+        verbose_name_plural = verbose_name
+
+
+class Info(models.Model):
+    ALBUM_CHOICES = (
+        ("UNUSE", "待审核"),
+        ("COMM", "正常"),
+        ("OVER", "结束"),
+        ("PEDDING", "停用"),
+        ("DEL", "删除"),
+    )
+    id = models.UUIDField(primary_key=True, default=uuid.uuid1, editable=False)
+    userid = models.CharField(max_length=255, verbose_name="用户id")
+    title = models.CharField(max_length=255, verbose_name="标题")
+    content = models.CharField(max_length=255, verbose_name="内容")
+    desc = models.CharField(max_length=255, blank=True, null=True, verbose_name="描述")
+    status = models.CharField(max_length=255, choices=ALBUM_CHOICES, verbose_name="状态")
+    type = models.CharField(max_length=255, default="其他", verbose_name="类型") # 资源合作,活动聚会,创业合作,招聘猎头,求职,企业推介,供应采购,商务合作,服务咨询,其他'
+    order = models.IntegerField(default=9999, verbose_name="排序")
+
+    viewcnt = models.IntegerField(default=0, verbose_name="访问次数")
+    favcnt = models.IntegerField(default=0, verbose_name="收藏人数")
+    commentcnt = models.IntegerField(default=0, verbose_name="评论数")
+    likecnt = models.IntegerField(default=0, verbose_name="点赞数")
+
+    exptime = models.IntegerField(default=0, verbose_name="过期时间") # 0=永不过期
+
+    province = models.CharField(max_length=255, blank=True, null=True, verbose_name="区域(省)")
+    city = models.CharField(max_length=255, blank=True, null=True, verbose_name="区域(市)")
+    county = models.CharField(max_length=255, blank=True, null=True, verbose_name="区域(区)")
+
+    pic = SImageField(upload_to="Album_info", max_length=255, verbose_name="附加图片")
+
+    addtime = models.DateTimeField(auto_now=True, verbose_name="添加时间")
+    edittime = models.DateTimeField(auto_now=True, verbose_name="修改时间")
+    addip = models.CharField(max_length=255, blank=True, null=True, verbose_name="添加IP")
+    editip = models.CharField(max_length=255, blank=True, null=True, verbose_name="修改IP")
+
+    class Meta:
+        verbose_name = '信息'
+        verbose_name_plural = verbose_name
+
+
+class Setup(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid1, editable=False)
+    title = models.CharField(max_length=255, blank=True, null=True, verbose_name="网站名称")
+    content = models.CharField(max_length=255, blank=True, null=True, verbose_name="关于我们")
+
+    logo = SImageField(upload_to="Album_about", max_length=255, verbose_name="网站底图")
+    adpic = SImageField(upload_to="Album_about", max_length=255, verbose_name="海报底图")
+    
+    regcheck = models.IntegerField(default=0, verbose_name="注册是否审核")
+
+    addtime = models.IntegerField(default=0, verbose_name="添加时间")
+    edittime = models.IntegerField(default=0, verbose_name="修改时间")
+    addip = models.CharField(max_length=255, blank=True, null=True, verbose_name="添加IP")
+    editip = models.CharField(max_length=255, blank=True, null=True, verbose_name="修改IP")
+
+    class Meta:
+        verbose_name = '关于我们'
+        verbose_name_plural = verbose_name
+
+
+class WXUser(models.Model):
+    ALBUM_CHOICES = (
+        ("UNUSE", "待审核"),
+        ("COMM", "正常"),
+        ("OVER", "结束"),
+        ("PEDDING", "停用"),
+        ("DEL", "删除"),
+    )
+    id = models.UUIDField(primary_key=True, default=uuid.uuid1, editable=False)
+    USER_ID = models.CharField(max_length=255, verbose_name="用户id")
+    USER_NAME = models.CharField(max_length=255, verbose_name="用户姓名")
+    USER_PIC = SImageField(upload_to="Album_head", max_length=255, verbose_name="用户头像")
+    USER_PIC_CLOUD_ID = models.CharField(max_length=1024, verbose_name="用户头像云存储地址")
+
+    USER_PHONE_CHECKED = models.CharField(max_length=255, verbose_name="已校验的手机号码")
+    USER_MINI_QRCODE = models.CharField(max_length=255, verbose_name="小程序码地址")
+
+    USER_MINI_OPENID = models.CharField(max_length=255, verbose_name="小程序openid")
+    USER_UNIONID = models.CharField(max_length=255, verbose_name="微信开放平台unionid")
+
+    USER_WX_OPENID = models.CharField(max_length=255, verbose_name="公众号openid")
+    USER_IS_SUBSCRIBE = models.IntegerField(default=0, verbose_name="公众号是否关注")
+    USER_SUBSCRIBE_TIME = models.IntegerField(default=0, verbose_name="公众号关注时间")
+    
+    USER_STATUS = models.CharField(max_length=255, choices=ALBUM_CHOICES, verbose_name="状态")
+    USER_INVITE_ID = models.CharField(max_length=255, blank=True, null=True, verbose_name="邀请码")
+
+    USER_ITEM = models.CharField(max_length=255, verbose_name="班级")
+    USER_SEX = models.IntegerField(default=1, verbose_name="性别") # 1=男,2=女
+    USER_BIRTH = models.IntegerField(default=0, verbose_name="出生年月")
+    USER_NATIVE = models.CharField(max_length=255, blank=True, null=True, verbose_name="籍贯")
+
+    USER_OPEN_SET = models.IntegerField(default=1, verbose_name="资料公开方式") # 1=男,2=女
+
+    USER_MOBILE = models.CharField(max_length=255, blank=True, null=True, verbose_name="联系电话")
+    USER_WECHAT = models.CharField(max_length=255, blank=True, null=True, verbose_name="微信")
+    USER_QQ = models.CharField(max_length=255, blank=True, null=True, verbose_name="QQ")
+    USER_EMAIL = models.CharField(max_length=255, blank=True, null=True, verbose_name="邮箱")
+
+    USER_ENROLL = models.IntegerField(default=1, blank=True, null=True, verbose_name="入学年份")
+    USER_GRAD = models.IntegerField(default=1, blank=True, null=True, verbose_name="毕业年份") 
+    USER_EDU = models.CharField(max_length=255, blank=True, null=True, verbose_name="学历") # 中学,高职,大专,本科,硕士,博士,博士后,其他
+
+
+    # title = models.CharField(max_length=255, verbose_name="标题", unique=True)
+    # content = models.CharField(max_length=255, verbose_name="内容")
+    # desc = models.CharField(max_length=255, blank=True, null=True, verbose_name="描述")
+    
+    # type = models.CharField(max_length=255, default="其他", verbose_name="类型") # 资源合作,活动聚会,创业合作,招聘猎头,求职,企业推介,供应采购,商务合作,服务咨询,其他'
+    # order = models.IntegerField(default=9999, verbose_name="排序")
+
+    USER_COMPANY = models.CharField(max_length=255, blank=True, null=True, verbose_name="当前单位")
+    USER_COMPANY_DEF = models.CharField(max_length=255, blank=True, null=True, verbose_name="当前单位性质") # 保留,机关部门,事业单位,国企,世界500强,外企,上市企业,民营企业,自有企业,个体经营,自由职业,其他
+    USER_COMPANY_DUTY = models.CharField(max_length=255, blank=True, null=True, verbose_name="当前职位")
+    USER_TRADE = models.CharField(max_length=255, blank=True, null=True, verbose_name="当前行业")
+    USER_CITY = models.CharField(max_length=255, blank=True, null=True, verbose_name="当前城市")
+    USER_WORK_STATUS = models.CharField(max_length=255, blank=True, null=True, verbose_name="工作状态")
+
+
+    USER_DESC = models.CharField(max_length=255, blank=True, null=True, verbose_name="自我介绍")
+    USER_RESOURCE = models.CharField(max_length=255, blank=True, null=True, verbose_name="可提供资源&需求")
+
+    USER_FAV_CNT = models.IntegerField(default=0, verbose_name="被收藏人数")
+    USER_INVITE_CNT = models.IntegerField(default=0, verbose_name="邀请人数")
+    USER_VIEW_CNT = models.IntegerField(default=0, verbose_name="被查看次数")
+    USER_ALBUM_CNT = models.IntegerField(default=0, verbose_name="发相册数量")
+    USER_INFO_CNT = models.IntegerField(default=0, verbose_name="发互助数量")
+    USER_MEET_CNT = models.IntegerField(default=0, verbose_name="发起活动次数")
+    USER_MEET_JOIN_CNT = models.IntegerField(default=0, verbose_name="活动报名次数")
+
+    USER_WX_GENDER = models.IntegerField(default=1, verbose_name="微信性别") # 0=未定义,1=男,2=女
+    USER_WX_AVATAR_URL = models.CharField(max_length=255, blank=True, null=True, verbose_name="微信头像链接")
+    USER_WX_NICKNAME = models.CharField(max_length=255, blank=True, null=True, verbose_name="微信昵称")
+    USER_WX_LANGUAGE = models.CharField(max_length=255, blank=True, null=True, verbose_name="微信语言")
+    USER_WX_CITY = models.CharField(max_length=255, blank=True, null=True, verbose_name="微信城市")
+    USER_WX_PROVINCE = models.CharField(max_length=255, blank=True, null=True, verbose_name="微信省份")
+    USER_WX_COUNTRY = models.CharField(max_length=255, blank=True, null=True, verbose_name="微信国家")
+    USER_WX_UPDATE_TIME = models.IntegerField(default=0, verbose_name="微信信息更新时间")
+
+    USER_ACTIVE = models.CharField(max_length=255, blank=True, null=True, verbose_name="用户动态")
+    
+    USER_LOGIN_CNT = models.IntegerField(default=0, verbose_name="登录次数")
+    USER_LOGIN_TIME = models.IntegerField(default=0, blank=True, null=True, verbose_name="登录时间")
+
+    USER_ADD_TIME = models.IntegerField(default=0, verbose_name="添加时间")
+    USER_ADD_IP = models.CharField(max_length=255, blank=True, null=True, verbose_name="添加IP")
+    USER_EDIT_TIME = models.IntegerField(default=0, verbose_name="修改时间")
+    USER_EDIT_IP = models.CharField(max_length=255, blank=True, null=True, verbose_name="修改IP")
+
+    class Meta:
+        verbose_name = '小程序用户'
+        verbose_name_plural = verbose_name
+
+
+class WXAdmin(models.Model):
+    ADMIN_ID = models.CharField(max_length=255, verbose_name="用户id")
+    ADMIN_NAME = models.CharField(max_length=255, verbose_name="姓名")
+
+    ADMIN_PHONE = models.CharField(max_length=255, verbose_name="电话")
+    ADMIN_STATUS = models.IntegerField(default=0, verbose_name="状态") # 0=禁用 1=启用
+
+    ADMIN_LOGIN_CNT = models.IntegerField(default=0, verbose_name="登录次数")
+    ADMIN_LOGIN_TIME = models.IntegerField(default=0, verbose_name="登录时间")
+
+    ADMIN_TYPE = models.IntegerField(default=1, verbose_name="类型")
+
+    ADMIN_TOKEN = models.CharField(max_length=255, verbose_name="token")
+    ADMIN_TOKEN_TIME = models.CharField(max_length=255, verbose_name="token时间")
+
+    ADMIN_ADD_TIME = models.IntegerField(default=0, verbose_name="添加时间")
+    ADMIN_ADD_IP = models.CharField(max_length=255, blank=True, null=True, verbose_name="添加IP")
+    ADMIN_EDIT_TIME = models.IntegerField(default=0, verbose_name="修改时间")
+    ADMIN_EDIT_IP = models.CharField(max_length=255, blank=True, null=True, verbose_name="修改IP")
+
+    class Meta:
+        verbose_name = '小程序管理员'
+        verbose_name_plural = verbose_name

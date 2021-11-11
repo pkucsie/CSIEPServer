@@ -90,6 +90,9 @@ router.register('label_type/?', views.LabelTypeViewSet)
 
 router.register('footer/?', views.FooterViewSet)
 
+router.register('admin/?', views.WXUserAdminViewSet)
+router.register('passport/?', views.WXUserViewSet)
+
 urlpatterns = [
     re_path('^', include(router.urls)),
     path('home/recommend', RecommendView.as_view()),

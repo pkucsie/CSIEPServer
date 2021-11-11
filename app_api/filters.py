@@ -1,10 +1,10 @@
 from django_filters import rest_framework as filters
 
-from app_api.models import Judge, Order, Coupon, Integral, Notice, Lesson, Organization, Question, Cart, User, Bill, \
+from app_api.models import Album, Info, Judge, Order, Coupon, Integral, Notice, Lesson, Organization, Question, Cart, Setup, User, Bill, \
     Address, Catalog, Log, ReadType, Teacher, Comment, \
     Hot, Recharge, LabelFollow, Student, Navigation, Read, Article, History, Qa, ArticleType, UserNotice, Slider, \
     UserLesson, Nav, LabelType, \
-    IntegralType, Label, Footer, CommonPathConfig, Consult, VipGuest, Judge, Organization, TaskTimeline, Project, Score
+    IntegralType, Label, Footer, CommonPathConfig, Consult, VipGuest, Judge, Organization, TaskTimeline, Project, Score, WXAdmin, WXUser
 
 
 class ConsultFilter(filters.FilterSet):
@@ -286,4 +286,41 @@ class FooterFilter(filters.FilterSet):
 class CommonPathConfigFilter(filters.FilterSet):
     class Meta:
         model = CommonPathConfig
+        fields = "__all__"
+
+
+class WxuserFilter(filters.FilterSet):
+    # sort = filters.OrderingFilter(fields=('order',))
+    # filter_backends = (filters.SearchFilter, filters.OrderingFilter,)
+    # ordering_fields = ('order')
+    class Meta:
+        model = WXUser
+        exclude = ["USER_PIC"]
+        #fields = "__all__" #["id", "name", "service", "introduction", "orgurl", "order"]
+
+
+class SetupFilter(filters.FilterSet):
+    class Meta:
+        model = Setup
+        exclude = ["logo", "adpic"]
+        #fields = "__all__"
+
+
+class InfoFilter(filters.FilterSet):
+    class Meta:
+        model = Info
+        exclude = ["pic"]
+        #fields = "__all__"
+
+
+class AlbumFilter(filters.FilterSet):
+    class Meta:
+        model = Album
+        exclude = ["pic"]
+        #fields = "__all__"
+
+
+class WxadminFilter(filters.FilterSet):
+    class Meta:
+        model = WXAdmin        
         fields = "__all__"

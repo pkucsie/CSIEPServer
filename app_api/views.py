@@ -1,6 +1,11 @@
 import json
 import os
 
+import datetime
+import time
+from datetime import datetime, date, timedelta, timezone
+from time import time, ctime, localtime, strftime, strptime, mktime
+
 from django.conf import settings
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.hashers import make_password
@@ -21,17 +26,17 @@ from app_api.app_viewset import MyViewSet, MyViewSetS, MyViewSetScore,MyViewSetS
 from app_api.custom_render import MyJSONRenderer, MyJSONRendererP
 from utils.log_utils import login_log_save
 from utils.utils import get_order_no, log_save
-from app_api.models import Judge, Order, Coupon, Integral, Notice, Lesson, Organization, Question, Cart, User, Bill, \
+from app_api.models import Album, Info, Judge, Order, Coupon, Integral, Notice, Lesson, Organization, Question, Cart, Setup, User, Bill, \
     Address, Catalog, Log, ReadType, Teacher, Comment, \
     Hot, Recharge, LabelFollow, Student, Navigation, Read, Article, History, Qa, ArticleType, UserNotice, Slider, \
     UserLesson, Nav, LabelType, \
     IntegralType, Label, Footer, CommonPathConfig, Chapter, RechargePay, RechargeAction, OrderItem, OrderStatus, \
     Consult, VipGuest, Judge, \
-    Organization, TaskTimeline, Project, Score
+    Organization, TaskTimeline, Project, Score, WXUser
 
-from app_api.serializers import OrderSerializer, CouponSerializer, IntegralSerializer, NoticeSerializer, \
+from app_api.serializers import AlbumSerializer, InfoSerializer, OrderSerializer, CouponSerializer, IntegralSerializer, NoticeSerializer, \
     LessonSerializer, QuestionSerializer, \
-    CartSerializer, UserSerializer, BillSerializer, AddressSerializer, CatalogSerializer, LogSerializer, \
+    CartSerializer, SetupSerializer, UserSerializer, BillSerializer, AddressSerializer, CatalogSerializer, LogSerializer, \
     ReadTypeSerializer, TeacherSerializer, \
     CommentSerializer, HotSerializer, RechargeSerializer, LabelFollowSerializer, StudentSerializer, \
     NavigationSerializer, ReadSerializer, \
@@ -42,16 +47,16 @@ from app_api.serializers import OrderSerializer, CouponSerializer, IntegralSeria
     ChapterSerializer, RechargeListSerializer, OrderInfoSerializer, OrderListSerializer, ConsultSerializer, \
     ReadInfoSerializer, \
     LabelTypeHomeSerializer, VipGuestSerializer, JudgeSerializer, OrganizationSerializer, TaskTimelineSerializer, \
-    ProjectSerializer, ScoreSerializer
-from app_api.filters import OrderFilter, CouponFilter, IntegralFilter, NoticeFilter, LessonFilter, QuestionFilter, \
-    CartFilter, UserFilter, BillFilter, \
+    ProjectSerializer, ScoreSerializer, WxuserFullSerializer, WxuserSerializer
+from app_api.filters import AlbumFilter, InfoFilter, OrderFilter, CouponFilter, IntegralFilter, NoticeFilter, LessonFilter, QuestionFilter, \
+    CartFilter, SetupFilter, UserFilter, BillFilter, \
     AddressFilter, CatalogFilter, LogFilter, ReadTypeFilter, TeacherFilter, CommentFilter, HotFilter, RechargeFilter, \
     LabelFollowFilter, \
     StudentFilter, NavigationFilter, ReadFilter, ArticleFilter, HistoryFilter, QaFilter, ArticleTypeFilter, \
     UserNoticeFilter, SliderFilter, \
     UserLessonFilter, NavFilter, LabelTypeFilter, IntegralTypeFilter, LabelFilter, FooterFilter, CommonPathConfigFilter, \
     ConsultFilter, VipGuestFilter, \
-    JudgeFilter, OrganizationFilter, TaskTimelineFilter, ProjectFilter, JudgeProductFilter,ScoreFilter
+    JudgeFilter, OrganizationFilter, TaskTimelineFilter, ProjectFilter, JudgeProductFilter,ScoreFilter, WxuserFilter
 
 
 class ConsultViewSet(MyViewSet):
@@ -292,6 +297,98 @@ class UserViewSet(MyViewSet):
     serializer_class = UserSerializer
     queryset = User.objects.all()
     filter_class = UserFilter
+
+    @action(methods=['get'], detail=False, url_path="my_detail/?", permission_classes=[])
+    def userdetail(self, request, pk=None):
+        # token = request.META.get("token")
+        token = request.META.get("HTTP_AUTHORIZATION", None)
+        print(token)
+        userId = token #request.query_params["userId"]
+        # print(userId)
+        # user = WXUser.objects.filter(USER_MINI_OPENID=str(userId))
+        # print(WxuserSerializer(user, many=True).data())
+        wxuser = WXUser.objects.raw('SELECT * FROM app_api_wxuser where USER_MINI_OPENID="%s"'%str(userId))
+        
+        return JsonResponse(WxuserFullSerializer(wxuser, many=True).data[0]
+        )
+
+    @action(methods=['get'], detail=False, url_path="view/?", permission_classes=[])
+    def userview(self, request, pk=None):
+        token = request.META.get("token")
+        print(token)
+        userId = request.query_params["userId"]
+        print(userId)
+        # user = WXUser.objects.filter(USER_MINI_OPENID=str(userId))
+        # print(WxuserSerializer(user, many=True).data())
+        wxuser = WXUser.objects.raw('SELECT * FROM app_api_wxuser where USER_MINI_OPENID="%s"'%str(userId))
+        
+        return JsonResponse(WxuserFullSerializer(wxuser, many=True).data[0]
+        )
+
+
+    @action(methods=['get'], detail=False, url_path="list/?", permission_classes=[])
+    def userlist(self, request, pk=None):
+        FILEDS_USER_BASE = 'USER_ADD_TIME,USER_FAV_CNT,USER_VIEW_CNT,USER_EDU,USER_ITEM,USER_INFO_CNT,USER_ALBUM_CNT,USER_MEET_CNT,USER_MEET_JOIN_CNT,USER_NAME,USER_NATIVE,USER_BIRTH,USER_SEX,USER_PIC,USER_STATUS,USER_CITY,USER_COMPANY,USER_TRADE,USER_COMPANY_DUTY,USER_ENROLL,USER_GRAD,USER_LOGIN_TIME,USER_MINI_OPENID'
+        name_map = {'first': 'first_name', 'last': 'last_name', 'bd': 'birth_date', 'pk': 'id'}
+
+        wheresql = ''        
+
+        lname = 'Doe'
+        #下面这种方式可以防止sql注入
+        # WXUser.objects.raw('SELECT '+FILEDS_USER_BASE+' FROM app_api_wxuser WHERE last_name = %s', [lname])
+
+        #下面这种方式存在隐患，可以被sql注入
+        # WXUser.objects.raw('SELECT * FROM app_api_wxuser WHERE USER_NAME = %s' %lname)
+        wxuserlist = WXUser.objects.raw('SELECT * FROM app_api_wxuser')
+
+        # st = strptime('2019.03.24', '%Y.%m.%d')
+        # mktime(st)
+
+        serializer_class = WxuserSerializer
+        # queryset = WXUser.objects.all()
+        filter_class = WxuserFilter
+        # return Response(WxuserSerializer(WXUser.objects.all(), many=True).data)
+#         return JsonResponse({
+#                 "page": 1,
+#                 "size": 20,
+#                 "list": [{
+# "USER_ADD_TIME":15000,
+# "USER_FAV_CNT":0,
+# "USER_VIEW_CNT":0,
+# "USER_EDU":"本科",
+# "USER_ITEM":"艺院4班",
+# "USER_INFO_CNT":0,
+# "USER_ALBUM_CNT":0,
+# "USER_MEET_CNT":0,
+# "USER_MEET_JOIN_CNT":0,
+# "USER_NAME":"罗浩",
+# "USER_NATIVE":"北京市区",
+# "USER_BIRTH":15000,
+# "USER_SEX":1,
+# "USER_PIC":"",
+# "USER_STATUS":1,
+# "USER_CITY":"北京",
+# "USER_COMPANY":"腾讯",
+# "USER_TRADE":"互联网",
+# "USER_COMPANY_DUTY":"CEO",
+# "USER_ENROLL":2013,
+# "USER_GRAD":2019,
+# "USER_LOGIN_TIME":15000,
+# "USER_MINI_OPENID":"aa133ce55f4048a400124d2b38b64f60"
+#                 }],
+#                 "count": 1,
+#                 "total": 1,
+#                 "oldTotal": 0
+#         })
+        return JsonResponse({
+                "page": 1,
+                "size": 20,
+                "list": WxuserSerializer(wxuserlist, many=True).data,
+                "count": len(wxuserlist),
+                "total": 1,
+                "oldTotal": 0
+        })
+
 
     @action(methods=['get'], detail=False, url_path="info/?", permission_classes=[IsAuthenticated, ])
     def info(self, request, pk=None):
@@ -771,4 +868,307 @@ class HomeLessonView(APIView):
                 "improve": LessonSerializer(improve_list, many=True).data,
                 "advanced": LessonSerializer(advance_list, many=True).data
             }
+        })
+
+
+# class WxuserViewSet(MyViewSet):
+#     serializer_class = WxuserSerializer
+#     queryset = WXUser.objects.all()
+#     filter_class = WxuserFilter
+
+
+class InfoViewSet(MyViewSet):
+    serializer_class = InfoSerializer
+    queryset = Info.objects.all()
+    filter_class = InfoFilter
+
+
+class SetupViewSet(MyViewSet):
+    serializer_class = SetupSerializer
+    queryset = Setup.objects.all()
+    filter_class = SetupFilter
+
+
+class AlbumViewSet(MyViewSet):
+    serializer_class = AlbumSerializer
+    queryset = Album.objects.all()
+    filter_class = AlbumFilter
+
+
+class WXUserViewSet(MyViewSet):
+    serializer_class = WxuserSerializer
+    queryset = WXUser.objects.all()
+    filter_class = WxuserFilter
+
+    @action(methods=['get'], detail=False, url_path="my_detail/?", permission_classes=[IsAuthenticated, ])
+    def info(self, request, pk=None):
+        token = request.META.get("token")
+        print(token)
+        user = request.user
+        ret = UserSerializer(user).data
+        del ret["password"]
+        return Response(ret)
+
+    @action(methods=['post'], detail=False, url_path="modify/?", permission_classes=[])
+    def update_info(self, request, pk=None):
+        user = request.user
+        user.nickname = request.data["nickname"]
+        user.city = request.data["city"]
+        user.job = request.data["job"]
+        user.sex = request.data["sex"]
+        user.signature = request.data["signature"]
+        user.save()
+        return Response(True)
+
+    @action(methods=['post'], detail=False, url_path="update/info/?", permission_classes=[IsAuthenticated, ])
+    def update_info(self, request, pk=None):
+        user = request.user
+        user.nickname = request.data["nickname"]
+        user.city = request.data["city"]
+        user.job = request.data["job"]
+        user.sex = request.data["sex"]
+        user.signature = request.data["signature"]
+        user.save()
+        return Response(True)
+
+    @action(methods=['post'], detail=False, url_path="update/binds/?", permission_classes=[IsAuthenticated, ])
+    def update_binds(self, request, pk=None):
+        user = request.user
+        user.email = request.data["email"]
+        user.password = make_password(request.data["ckpassword"])
+        user.phone = request.data["phone"]
+        user.qq = request.data["qq"]
+        user.wechat = request.data["wechat"]
+        user.save()
+        return Response(True)
+
+    @action(methods=['post'], detail=False, url_path="register/?")
+    def register(self, request, pk=None):
+        username = request.data["username"]
+        password = request.data["password"]
+        user = User(username=username, password=make_password(password))
+        # TODO 更改默认头像
+        user.avatar = "https://img3.sycdn.imooc.com/5a5d1f3a0001cab806380638-140-140.jpg"
+        user.save()
+        return Response(True)
+
+    @action(methods=['get'], detail=False, url_path="reg/?")
+    def reg(self, request, pk=None):
+        # userId = request.query_params["userId"]
+        userId = ''
+        wechatDataStr = request.query_params["wechatData"]
+        phone = request.query_params["phone"]
+        inviteData = request.query_params["inviteData"]
+        formData = request.query_params["formData"]
+
+        wechatData = json.loads(wechatDataStr)
+        formItem = json.loads(formData)
+        print(wechatData)
+        # print(formItem)
+
+        # TODO invite id
+        inviteId = ''
+
+
+        birthstr = str(formItem['birth'])
+        print(birthstr)
+        dt = datetime.strptime(birthstr, "%Y-%m-%d")
+        birthctime = int(mktime(dt.timetuple()))
+
+        user = WXUser(USER_NAME=str(formItem['name']), USER_SEX=int(formItem['sex']), USER_BIRTH=birthctime, 
+            USER_ITEM=str(formItem['item']), USER_CITY=str(formItem['city']), USER_NATIVE=str(formItem['native']), 
+            USER_ENROLL=int(formItem['enroll']), USER_GRAD=int(formItem['grad']), USER_EDU=formItem['edu'])
+
+
+        user.USER_PHONE_CHECKED = phone
+        user.USER_PIC = wechatData['avatarUrl']
+        user.USER_MINI_OPENID = userId
+        user.USER_INVITE_ID = inviteId
+
+        user.USER_STATUS = 1
+
+        user.USER_WX_GENDER = wechatData['gender']
+        user.USER_WX_AVATAR_URL = wechatData['avatarUrl']
+        user.USER_WX_NICKNAME = wechatData['nickName']
+        user.USER_WX_LANGUAGE = wechatData['language']
+        user.USER_WX_CITY = wechatData['city']
+        user.USER_WX_PROVINCE = wechatData['province']
+        user.USER_WX_COUNTRY = wechatData['country']
+        # user.USER_WX_UPDATE_TIME = this._timestamp;
+
+        # TODO 更改默认头像
+        # user.USER_PIC = wechatData['avatarUrl']
+        user.save()
+
+        print(user.USER_MINI_OPENID)
+        print(user.id)
+        print(user.USER_ITEM)
+
+        return JsonResponse({
+            'data': {
+            'token': {
+                "id": str(user.id),
+                "key": user.id,
+                "name": user.USER_NAME,
+                "pic": str(user.USER_PIC),
+                "sex": user.USER_SEX,
+                "status": user.USER_STATUS,
+                "item": user.USER_ITEM
+            }
+            }
+        })
+
+
+    #@action(methods=['post'], detail=False, url_path="login/?")
+    @action(methods=['get'], detail=False, url_path="phone/?")
+    def phone(self, request, pk=None):
+        cloudID = request.query_params["cloudID"]
+
+        return Response('18611903910')
+
+
+    #@action(methods=['post'], detail=False, url_path="login/?")
+    @action(methods=['get'], detail=False, url_path="login/?")    
+    def login(self, request, pk=None):
+
+
+
+        return JsonResponse({
+            'data': {
+            'token': {
+                "id": 'aa133ce55f4048a400124d2b38b64f62',
+                "name": '刘敏',
+                "pic": '',
+                "status": 1,
+                "type": 1
+            }}
+        })
+        # user = authenticate(request, username=request.data["username"], password=request.data["password"])
+        # if user is not None:
+        #     login(request, user)
+        #     login_log_save(request, user, login_type="0")
+        #     return Response(UserSerializer(user).data)
+        # else:
+        #     return JsonResponse({
+        #         "code": -1,
+        #         "msg": "登录失败"
+        #     })
+
+    @action(methods=['get'], detail=False, url_path="logout/?")
+    def logout(self, request, pk=None):
+        logout(request)
+        return JsonResponse({
+            "code": 0,
+            "msg": "用户退出成功"
+        })
+
+
+class WXUserAdminViewSet(MyViewSet):
+    serializer_class = WxuserSerializer
+    queryset = WXUser.objects.all()
+    filter_class = WxuserFilter
+
+    @action(methods=['get'], detail=False, url_path="my_detail/?", permission_classes=[IsAuthenticated, ])
+    def info(self, request, pk=None):
+        user = request.user
+        ret = UserSerializer(user).data
+        del ret["password"]
+        return Response(ret)
+
+    #@action(methods=['post'], detail=False, url_path="login/?")
+    @action(methods=['get'], detail=False, url_path="phone/?")
+    def phone(self, request, pk=None):
+        cloudID = request.query_params["cloudID"]
+
+        return Response('18611903910')
+
+    @action(methods=['get'], detail=False, url_path="home/?")
+    def home(self, request, pk=None):
+
+        return JsonResponse({
+            'projectName': 'ooo',
+            'projectVer': '(V1.0 Build2020)',
+            'admin': {
+                "name": 'ss',
+                "cnt": 1,
+                "last": 15660000,
+            },
+            "newsCnt": 1,
+            "userCnt": 1,
+            "projectVerCloud": '(V1.0 Build20210808)',
+            "projectSource": 'pku',
+            'data': {
+            'token': {
+                "id": 'aa133ce55f4048a400124d2b38b64f62',
+                "name": '刘敏',
+                "pic": '',
+                "status": 1,
+                "type": 1
+            }}
+        })
+
+
+    @action(methods=['get'], detail=False, url_path="user_list/?", permission_classes=[])
+    def userlist(self, request, pk=None):
+        FILEDS_USER_BASE = 'USER_ADD_TIME,USER_FAV_CNT,USER_VIEW_CNT,USER_EDU,USER_ITEM,USER_INFO_CNT,USER_ALBUM_CNT,USER_MEET_CNT,USER_MEET_JOIN_CNT,USER_NAME,USER_NATIVE,USER_BIRTH,USER_SEX,USER_PIC,USER_STATUS,USER_CITY,USER_COMPANY,USER_TRADE,USER_COMPANY_DUTY,USER_ENROLL,USER_GRAD,USER_LOGIN_TIME,USER_MINI_OPENID'
+        name_map = {'first': 'first_name', 'last': 'last_name', 'bd': 'birth_date', 'pk': 'id'}
+
+        wheresql = ''        
+
+        lname = 'Doe'
+        #下面这种方式可以防止sql注入
+        # WXUser.objects.raw('SELECT '+FILEDS_USER_BASE+' FROM app_api_wxuser WHERE last_name = %s', [lname])
+
+        #下面这种方式存在隐患，可以被sql注入
+        # WXUser.objects.raw('SELECT * FROM app_api_wxuser WHERE USER_NAME = %s' %lname)
+        wxuserlist = WXUser.objects.raw('SELECT * FROM app_api_wxuser')
+
+        # st = strptime('2019.03.24', '%Y.%m.%d')
+        # mktime(st)
+
+        serializer_class = WxuserSerializer
+        # queryset = WXUser.objects.all()
+        filter_class = WxuserFilter
+        return JsonResponse({
+                "page": 1,
+                "size": 20,
+                "list": WxuserSerializer(wxuserlist, many=True).data,
+                "count": len(wxuserlist),
+                "total": 1,
+                "oldTotal": 0
+        })
+
+
+    #@action(methods=['post'], detail=False, url_path="login/?")
+    @action(methods=['get'], detail=False, url_path="login/?")    
+    def login(self, request, pk=None):
+        token = request.META.get("token")
+        print(token)
+        return JsonResponse({
+            'data': {
+            'token': {
+                "id": 'aa133ce55f4048a400124d2b38b64f62',
+                "name": '刘敏',
+                "pic": '',
+                "status": 1,
+                "type": 1
+            }}
+        })
+        # user = authenticate(request, username=request.data["username"], password=request.data["password"])
+        # if user is not None:
+        #     login(request, user)
+        #     login_log_save(request, user, login_type="0")
+        #     return Response(UserSerializer(user).data)
+        # else:
+        #     return JsonResponse({
+        #         "code": -1,
+        #         "msg": "登录失败"
+        #     })
+
+    @action(methods=['get'], detail=False, url_path="logout/?")
+    def logout(self, request, pk=None):
+        logout(request)
+        return JsonResponse({
+            "code": 0,
+            "msg": "用户退出成功"
         })

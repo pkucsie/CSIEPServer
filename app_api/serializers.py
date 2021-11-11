@@ -1,17 +1,19 @@
 import datetime
 import time
 
+from utils import utils
+
 from rest_framework import serializers
 from rest_framework.relations import StringRelatedField
 
-from app_api.models import Order, Coupon, Integral, Notice, Lesson, Question, Cart, User, Bill, Address, Catalog, Log, \
+from app_api.models import Album, Info, Order, Coupon, Integral, Notice, Lesson, Question, Cart, Setup, User, Bill, Address, Catalog, Log, \
     ReadType, Teacher, Comment, \
     Hot, Recharge, LabelFollow, Student, Navigation, Read, Article, History, Qa, ArticleType, UserNotice, Slider, \
     UserLesson, Nav, LabelType, \
     IntegralType, Label, Footer, CommonPathConfig, StudentType, LessonType, LessonHardType, Chapter, Term, QaType, \
     RechargeAction, RechargePay, \
     CouponRange, CouponStatus, OrderItem, OrderStatus, Consult, ReadChapterItem, ReadChapter, LogType, VipGuest, Judge, \
-    Organization, TaskTimeline, Project, Score
+    Organization, TaskTimeline, Project, Score, WXAdmin, WXUser
 
 
 class ConsultSerializer(serializers.ModelSerializer):
@@ -466,4 +468,49 @@ class FooterSerializer(serializers.ModelSerializer):
 class CommonPathConfigSerializer(serializers.ModelSerializer):
     class Meta:
         model = CommonPathConfig
+        fields = "__all__"
+
+
+class AlbumSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Album
+        fields = "__all__"
+
+
+class InfoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Info
+        fields = "__all__"
+
+
+class SetupSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Setup
+        fields = "__all__"
+
+
+class WxuserSerializer(serializers.ModelSerializer):
+
+    def to_representation(self, instance):
+        """Convert `username` to lowercase."""
+        ret = super().to_representation(instance)
+        ret['USER_LOGIN_TIME'] = utils.get_agostr(ret['USER_LOGIN_TIME'])
+        ret['USER_BIRTH'] = utils.get_age(ret['USER_BIRTH'])
+        return ret
+
+    class Meta:
+        model = WXUser
+        fields = "__all__"
+
+class WxuserFullSerializer(serializers.ModelSerializer):
+
+
+    class Meta:
+        model = WXUser
+        fields = "__all__"
+
+
+class WxadminSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = WXAdmin
         fields = "__all__"
