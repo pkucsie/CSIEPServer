@@ -1007,7 +1007,7 @@ class WXUser(models.Model):
     USER_BIRTH = models.IntegerField(default=0, verbose_name="出生年月")
     USER_NATIVE = models.CharField(max_length=255, blank=True, null=True, verbose_name="籍贯")
 
-    USER_OPEN_SET = models.IntegerField(default=1, verbose_name="资料公开方式") # 1=男,2=女
+    USER_OPEN_SET = models.IntegerField(default=1, verbose_name="资料公开方式") # 1=所有用户,8=vip, 3=好友'
 
     USER_MOBILE = models.CharField(max_length=255, blank=True, null=True, verbose_name="联系电话")
     USER_WECHAT = models.CharField(max_length=255, blank=True, null=True, verbose_name="微信")

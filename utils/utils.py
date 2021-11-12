@@ -58,6 +58,12 @@ def get_agostr(timeval):
     return ''
 
 
+def get_ymd(timeval):
+    n = timeval/1000
+    dt_str = time.strftime('%Y-%m-%d', time.localtime(n))
+    return str(dt_str)
+
+
 def get_age(timeval):
     n = timeval/1000
     dt_str = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(n))

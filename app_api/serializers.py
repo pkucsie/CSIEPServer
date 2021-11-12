@@ -504,6 +504,11 @@ class WxuserSerializer(serializers.ModelSerializer):
 
 class WxuserFullSerializer(serializers.ModelSerializer):
 
+    def to_representation(self, instance):
+        """Convert `username` to lowercase."""
+        ret = super().to_representation(instance)
+        ret['USER_BIRTH'] = utils.get_ymd(ret['USER_BIRTH'])
+        return ret
 
     class Meta:
         model = WXUser

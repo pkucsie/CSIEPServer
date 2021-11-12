@@ -305,11 +305,12 @@ class UserViewSet(MyViewSet):
         print(token)
         userId = token #request.query_params["userId"]
         # print(userId)
-        # user = WXUser.objects.filter(USER_MINI_OPENID=str(userId))
+        wxuser = WXUser.objects.filter(USER_MINI_OPENID__icontains=str(userId)).first()
+        print(wxuser)
         # print(WxuserSerializer(user, many=True).data())
-        wxuser = WXUser.objects.raw('SELECT * FROM app_api_wxuser where USER_MINI_OPENID="%s"'%str(userId))
+        # wxuser = WXUser.objects.raw('SELECT * FROM app_api_wxuser where USER_MINI_OPENID="%s"'%str(userId))
         
-        return JsonResponse(WxuserFullSerializer(wxuser, many=True).data[0]
+        return JsonResponse(WxuserFullSerializer(wxuser).data
         )
 
     @action(methods=['get'], detail=False, url_path="view/?", permission_classes=[])
@@ -328,18 +329,70 @@ class UserViewSet(MyViewSet):
 
     @action(methods=['get'], detail=False, url_path="list/?", permission_classes=[])
     def userlist(self, request, pk=None):
+
+        searchstr = request.query_params.get("search", None)
+        sortType = request.query_params.get("sortType", None)
+        sortVal = request.query_params.get("sortVal", None)
+        print(sortType)
+
+        wheresql = 'where USER_STATUS == 1 '
+        orderbysql = ''
+
+        if searchstr is not None and str(searchstr) != '':
+            wheresql += "and USER_NAME like '%"+searchstr+"%' "
+            wheresql += "or USER_ITEM like '%"+searchstr+"%' "
+            wheresql += "or USER_COMPANY like '%"+searchstr+"%' "
+            wheresql += "or USER_TRADE like '%"+searchstr+"%' "
+
+        if str(sortType) == 'enroll':
+            if int(sortVal) == 1940:
+                wheresql += 'and USER_ENROLL < 1950 '
+            if int(sortVal) == 1950:
+                wheresql += 'and USER_ENROLL >= 1950 and USER_ENROLL < 1960 '
+            if int(sortVal) == 1960:
+                wheresql += 'and USER_ENROLL >= 1960 and USER_ENROLL < 1970 '
+            if int(sortVal) == 1970:
+                wheresql += 'and USER_ENROLL >= 1970 and USER_ENROLL < 1980 '
+            if int(sortVal) == 1980:
+                wheresql += 'and USER_ENROLL >= 1980 and USER_ENROLL < 1990 '
+            if int(sortVal) == 1990:
+                wheresql += 'and USER_ENROLL >= 1990 and USER_ENROLL < 2000 '
+            if int(sortVal) == 2000:
+                wheresql += 'and USER_ENROLL >= 2000 and USER_ENROLL < 2010 '
+            if int(sortVal) == 2010:
+                wheresql += 'and USER_ENROLL >= 2010 '
+        elif str(sortType) == 'sort':
+            if str(sortVal) == 'new':
+                if orderbysql == '': orderbysql += 'order by '
+                orderbysql += 'USER_LOGIN_TIME desc'
+            if str(sortVal) == 'last':
+                if orderbysql == '': orderbysql += 'order by '
+                orderbysql += 'USER_LOGIN_TIME desc, USER_ADD_TIME desc'
+            if str(sortVal) == 'enroll':
+                if orderbysql == '': orderbysql += 'order by '
+                orderbysql += 'USER_ENROLL asc, USER_LOGIN_TIME desc'
+            if str(sortVal) == 'info':
+                if orderbysql == '': orderbysql += 'order by '
+                orderbysql += 'USER_INFO_CNT desc, USER_LOGIN_TIME desc'
+            if str(sortVal) == 'album':
+                if orderbysql == '': orderbysql += 'order by '
+                orderbysql += 'USER_ALBUM_CNT desc, USER_LOGIN_TIME desc'
+            if str(sortVal) == 'meet':
+                if orderbysql == '': orderbysql += 'order by '
+                orderbysql += 'USER_MEET_CNT desc, USER_LOGIN_TIME desc'
+
         FILEDS_USER_BASE = 'USER_ADD_TIME,USER_FAV_CNT,USER_VIEW_CNT,USER_EDU,USER_ITEM,USER_INFO_CNT,USER_ALBUM_CNT,USER_MEET_CNT,USER_MEET_JOIN_CNT,USER_NAME,USER_NATIVE,USER_BIRTH,USER_SEX,USER_PIC,USER_STATUS,USER_CITY,USER_COMPANY,USER_TRADE,USER_COMPANY_DUTY,USER_ENROLL,USER_GRAD,USER_LOGIN_TIME,USER_MINI_OPENID'
         name_map = {'first': 'first_name', 'last': 'last_name', 'bd': 'birth_date', 'pk': 'id'}
 
-        wheresql = ''        
-
         lname = 'Doe'
+        sqlstr = 'SELECT * FROM app_api_wxuser '+wheresql+orderbysql
+        print(sqlstr)
         #下面这种方式可以防止sql注入
         # WXUser.objects.raw('SELECT '+FILEDS_USER_BASE+' FROM app_api_wxuser WHERE last_name = %s', [lname])
 
         #下面这种方式存在隐患，可以被sql注入
         # WXUser.objects.raw('SELECT * FROM app_api_wxuser WHERE USER_NAME = %s' %lname)
-        wxuserlist = WXUser.objects.raw('SELECT * FROM app_api_wxuser')
+        wxuserlist = WXUser.objects.raw(sqlstr)
 
         # st = strptime('2019.03.24', '%Y.%m.%d')
         # mktime(st)
@@ -900,24 +953,47 @@ class WXUserViewSet(MyViewSet):
     queryset = WXUser.objects.all()
     filter_class = WxuserFilter
 
-    @action(methods=['get'], detail=False, url_path="my_detail/?", permission_classes=[IsAuthenticated, ])
-    def info(self, request, pk=None):
-        token = request.META.get("token")
+    @action(methods=['get'], detail=False, url_path="modify/?", permission_classes=[])
+    def modify(self, request, pk=None):
+        token = request.META.get("HTTP_AUTHORIZATION", None)
         print(token)
-        user = request.user
-        ret = UserSerializer(user).data
-        del ret["password"]
-        return Response(ret)
+        userId = token
+        wxuser = WXUser.objects.filter(USER_MINI_OPENID__icontains=str(userId)).first()
 
-    @action(methods=['post'], detail=False, url_path="modify/?", permission_classes=[])
-    def update_info(self, request, pk=None):
-        user = request.user
-        user.nickname = request.data["nickname"]
-        user.city = request.data["city"]
-        user.job = request.data["job"]
-        user.sex = request.data["sex"]
-        user.signature = request.data["signature"]
-        user.save()
+        formDataStr = request.query_params["formData"]
+        formData = json.loads(formDataStr)
+        print(formDataStr)
+
+        data = wxuser
+        data.USER_NAME = formData["name"]
+
+        data.USER_SEX = formData["sex"]
+        data.USER_BIRTH = formData["birth"]
+
+        data.USER_OPEN_SET = formData["openSet"]
+        data.USER_MOBILE = formData["mobile"]
+        data.USER_WECHAT = formData["wechat"]
+        data.USER_EMAIL = formData["email"]
+        data.USER_QQ = formData["qq"]
+
+        data.USER_RESOURCE = formData["resource"]
+        data.USER_DESC = formData["desc"]
+
+        data.USER_EDU = formData["edu"]
+        data.USER_NATIVE = formData["native"]
+        data.USER_ENROLL = formData["enroll"]
+        data.USER_GRAD = formData["grad"]
+
+        data.USER_CITY = formData["city"]
+        data.USER_ITEM = formData["item"]
+
+        data.USER_COMPANY = formData["company"]
+        data.USER_COMPANY_DEF = formData["companyDef"]
+        data.USER_COMPANY_DUTY = formData["companyDuty"]
+        data.USER_TRADE = formData["trade"]
+        data.USER_WORK_STATUS = formData["workStatus"]
+
+        data.save()
         return Response(True)
 
     @action(methods=['post'], detail=False, url_path="update/info/?", permission_classes=[IsAuthenticated, ])
